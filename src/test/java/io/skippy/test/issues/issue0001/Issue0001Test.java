@@ -35,7 +35,6 @@ public class Issue0001Test {
             > Task :skippyAnalyze SKIPPED
                     
             BUILD SUCCESSFUL""");
-        
     }
 
 }
