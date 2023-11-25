@@ -1,23 +1,28 @@
 package io.skippy.test.functional.gradle_junit5_tutorial;
 
+import io.skippy.test.SkippyVersion;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.nio.file.Files;
 
+import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GradleJunit5TutorialTest {
 
     @Test
-    public void runTestsWithoutAnalysis() throws URISyntaxException {
-        URL url = getClass().getResource("build.gradle");
-        var file = new File(url.toURI());
+    public void runTestsWithoutAnalysis() throws Exception {
+
+        var buildFileTemplate = new File(getClass().getResource("build.gradle.template").toURI());
+        var projectDir = buildFileTemplate.getParentFile();
+        String s = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        Files.writeString(projectDir.toPath().resolve("build.gradle"), s);
+
         BuildResult result = GradleRunner.create()
-                .withProjectDir(file.getParentFile())
+                .withProjectDir(projectDir)
                 .withArguments("clean", "skippyClean", "test")
                 .build();
 
@@ -43,12 +48,15 @@ public class GradleJunit5TutorialTest {
     }
 
     @Test
-    public void runTestsWithAnalysis() throws URISyntaxException {
-        URL url = getClass().getResource("build.gradle");
-        var file = new File(url.toURI());
+    public void runTestsWithAnalysis() throws Exception {
+        var buildFileTemplate = new File(getClass().getResource("build.gradle.template").toURI());
+        var projectDir = buildFileTemplate.getParentFile();
+        String s = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        Files.writeString(projectDir.toPath().resolve("build.gradle"), s);
+
         BuildResult result = GradleRunner.create()
-                .withProjectDir(file.getParentFile())
-                .withArguments("clean", "skippyClean", "skippyAnalysis", "test")
+                .withProjectDir(projectDir)
+                .withArguments("clean", "skippyClean", "skippyAnalyze", "test")
                 .build();
 
         var output = result.getOutput();
@@ -62,7 +70,7 @@ public class GradleJunit5TutorialTest {
             > Task :skippyCoverage_com.example.RightPadderTest
             Capturing coverage data for com.example.RightPadderTest in skippy/com.example.RightPadderTest.csv
                     
-            > Task :skippyAnalysis
+            > Task :skippyAnalyze
             Capturing a snapshot of all source files in skippy/sourceSnapshot.md5""");
 
         assertThat(output).contains("""             
