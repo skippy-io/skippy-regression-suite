@@ -37,12 +37,12 @@ public class GradleJunit5TutorialTest {
             > Task :test
                         
             LeftPadderTest STANDARD_OUT
-                DEBUG i.s.c.m.SkippyAnalysisResult - com.example.LeftPadderTest: No analysis found. Execution required.
+                DEBUG i.s.c.SkippyAnalysis - com.example.LeftPadderTest: No analysis found. Execution required.
                         
             LeftPadderTest > testPadLeft() PASSED
                         
             RightPadderTest STANDARD_OUT
-                DEBUG i.s.c.m.SkippyAnalysisResult - com.example.RightPadderTest: No analysis found. Execution required.
+                DEBUG i.s.c.SkippyAnalysis - com.example.RightPadderTest: No analysis found. Execution required.
                         
             RightPadderTest > testPadLeft() PASSED
                         
@@ -82,21 +82,21 @@ public class GradleJunit5TutorialTest {
             "Capturing coverage data for com.example.RightPadderTest in skippy/com.example.RightPadderTest.csv",
 
             "> Task :skippyAnalyze",
-            "Capturing a snapshot of all source files in skippy/sourceSnapshot.md5"
+            "Creating the Skippy analysis file skippy/analyzedFiles.txt."
         );
 
         assertThat(lines).containsSubsequence(
             "LeftPadderTest STANDARD_OUT",
-            "    DEBUG i.s.c.m.SkippyAnalysisResult - com.example.LeftPadderTest: No changes in test or covered classes detected. Execution skipped.",
+            "    DEBUG i.s.c.SkippyAnalysis - com.example.LeftPadderTest: No changes in test or covered classes detected. Execution skipped.",
             "LeftPadderTest > testPadLeft() SKIPPED",
 
             "RightPadderTest STANDARD_OUT",
-            "    DEBUG i.s.c.m.SkippyAnalysisResult - com.example.RightPadderTest: No changes in test or covered classes detected. Execution skipped.",
+            "    DEBUG i.s.c.SkippyAnalysis - com.example.RightPadderTest: No changes in test or covered classes detected. Execution skipped.",
             "RightPadderTest > testPadLeft() SKIPPED"
         );
 
 
-        var snapshotMd5File = projectDir.toPath().resolve(Path.of("skippy", "sourceSnapshot.md5"));
+        var snapshotMd5File = projectDir.toPath().resolve(Path.of("skippy", "analyzedFiles.txt"));
         var snapshotMd5Content = readAllLines(snapshotMd5File).stream().sorted().collect(joining(lineSeparator()))
                 .replaceAll(projectDir.toString() + "/src/main/java/", "")
                 .replaceAll(projectDir.toString() + "/src/test/java/", "")
