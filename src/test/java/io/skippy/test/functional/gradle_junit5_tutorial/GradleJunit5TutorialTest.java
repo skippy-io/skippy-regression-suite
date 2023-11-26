@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.regex.Pattern;
 
-import static java.util.Arrays.asList;
+import static java.lang.System.lineSeparator;
+import static java.nio.file.Files.readAllLines;
 import static java.util.regex.Pattern.quote;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GradleJunit5TutorialTest {
 
@@ -70,7 +70,7 @@ public class GradleJunit5TutorialTest {
         var LOG_PREFIX_PATTERN ="\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}-\\d{4} \\[\\w+\\] \\[[\\w. ]+\\] ";
         output = output.replaceAll(LOG_PREFIX_PATTERN, "");
 
-        var lines = output.split(System.lineSeparator());
+        var lines = output.split(lineSeparator());
 
         assertThat(lines).containsSubsequence(
             "> Task :skippyClean",
@@ -97,12 +97,12 @@ public class GradleJunit5TutorialTest {
 
 
         var snapshotMd5File = projectDir.toPath().resolve(Path.of("skippy", "sourceSnapshot.md5"));
-        var snapshotMd5Content = Files
-                .readString(snapshotMd5File)
+        var snapshotMd5Content = readAllLines(snapshotMd5File).stream().sorted().collect(joining(lineSeparator()))
                 .replaceAll(projectDir.toString() + "/src/main/java/", "")
                 .replaceAll(projectDir.toString() + "/src/test/java/", "")
                 .replaceAll(projectDir.toString() + "/build/classes/java/main/", "")
                 .replaceAll(projectDir.toString() + "/build/classes/java/test/", "");
+
 
         assertThat(snapshotMd5Content).contains("""
                 com.example.LeftPadder:com/example/LeftPadder.java:com/example/LeftPadder.class:99PUNZm+uo4Rp5feNB5d/g==:HeDsMUqerZxYhOi8+SyxHA==
@@ -114,32 +114,30 @@ public class GradleJunit5TutorialTest {
                 com.example.TestConstants:com/example/TestConstants.java:com/example/TestConstants.class:nK/HNeYLMeGZk5hlcPS8Yg==:CjlZNllkdXvp5RozTW9ycQ==""");
 
         var leftPadderTestCsvFile = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.csv"));
-        var leftPadderTestCsv = Files.readString(leftPadderTestCsvFile);
+        var leftPadderTestCsv = readAllLines(leftPadderTestCsvFile).stream().sorted().collect(joining(lineSeparator()));
 
         assertThat(leftPadderTestCsv).contains("""
             GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-            gradle_junit5_tutorial,com.example,TestConstants,3,0,0,0,1,0,1,0,1,0
-            gradle_junit5_tutorial,com.example,StringUtils,14,11,2,2,4,3,3,2,2,1
             gradle_junit5_tutorial,com.example,LeftPadder,3,4,0,0,1,1,1,1,1,1
+            gradle_junit5_tutorial,com.example,LeftPadderTest,0,11,0,0,0,4,0,2,0,2
             gradle_junit5_tutorial,com.example,RightPadder,7,0,0,0,2,0,2,0,2,0
             gradle_junit5_tutorial,com.example,RightPadderTest,11,0,0,0,4,0,2,0,2,0
-            gradle_junit5_tutorial,com.example,LeftPadderTest,0,11,0,0,0,4,0,2,0,2
+            gradle_junit5_tutorial,com.example,StringUtils,14,11,2,2,4,3,3,2,2,1
             gradle_junit5_tutorial,com.example,StringUtilsTest,19,0,0,0,7,0,3,0,3,0
-            """);
+            gradle_junit5_tutorial,com.example,TestConstants,3,0,0,0,1,0,1,0,1,0""");
 
         var rightPadderTestCsvFile = projectDir.toPath().resolve(Path.of("skippy", "com.example.RightPadderTest.csv"));
-        var rightPadderTestCsv = Files.readString(rightPadderTestCsvFile);
+        var rightPadderTestCsv = readAllLines(rightPadderTestCsvFile).stream().sorted().collect(joining(lineSeparator()));
 
         assertThat(rightPadderTestCsv).contains("""
             GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-            gradle_junit5_tutorial,com.example,TestConstants,3,0,0,0,1,0,1,0,1,0
-            gradle_junit5_tutorial,com.example,StringUtils,14,11,2,2,4,3,3,2,2,1
             gradle_junit5_tutorial,com.example,LeftPadder,7,0,0,0,2,0,2,0,2,0
+            gradle_junit5_tutorial,com.example,LeftPadderTest,11,0,0,0,4,0,2,0,2,0
             gradle_junit5_tutorial,com.example,RightPadder,3,4,0,0,1,1,1,1,1,1
             gradle_junit5_tutorial,com.example,RightPadderTest,0,11,0,0,0,4,0,2,0,2
-            gradle_junit5_tutorial,com.example,LeftPadderTest,11,0,0,0,4,0,2,0,2,0
+            gradle_junit5_tutorial,com.example,StringUtils,14,11,2,2,4,3,3,2,2,1
             gradle_junit5_tutorial,com.example,StringUtilsTest,19,0,0,0,7,0,3,0,3,0
-            """);
+            gradle_junit5_tutorial,com.example,TestConstants,3,0,0,0,1,0,1,0,1,0""");
     }
 
 }
