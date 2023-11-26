@@ -18,12 +18,13 @@ public class Issue0001Test {
 
         var buildFileTemplate = new File(getClass().getResource("build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
-        String s = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
-        Files.writeString(projectDir.toPath().resolve("build.gradle"), s);
+        String buildfile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildfile);
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("clean", "skippyClean", "skippyAnalyze")
+                .forwardOutput()
                 .build();
 
         var output = result.getOutput();
