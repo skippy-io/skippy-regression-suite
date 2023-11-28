@@ -95,14 +95,9 @@ public class GradleJunit5TutorialTest {
 
         assertThat(lines).containsSubsequence(
             "> Task :skippyClean",
-
-            "> Task :skippyCoverage_com.example.LeftPadderTest",
-            "Capturing coverage data for com.example.LeftPadderTest in skippy/com.example.LeftPadderTest.csv",
-
-            "> Task :skippyCoverage_com.example.RightPadderTest",
-            "Capturing coverage data for com.example.RightPadderTest in skippy/com.example.RightPadderTest.csv",
-
             "> Task :skippyAnalyze",
+            "Capturing coverage data for com.example.LeftPadderTest in skippy/com.example.LeftPadderTest.csv",
+            "Capturing coverage data for com.example.RightPadderTest in skippy/com.example.RightPadderTest.csv",
             "Creating the Skippy analysis file skippy/analyzedFiles.txt."
         );
 
@@ -117,17 +112,17 @@ public class GradleJunit5TutorialTest {
         );
 
 
-        var snapshotMd5File = projectDir.toPath().resolve(Path.of("skippy", "analyzedFiles.txt"));
-        var snapshotMd5Content = readAllLines(snapshotMd5File).stream().sorted().collect(joining(lineSeparator()));
+        var analyzedFilesTxt = projectDir.toPath().resolve(Path.of("skippy", "analyzedFiles.txt"));
+        var analyzedFilesTxtContent = readAllLines(analyzedFilesTxt).stream().sorted().collect(joining(lineSeparator()));
 
-        assertThat(snapshotMd5Content).contains("""
-                com.example.LeftPadder:src/main/java/com/example/LeftPadder.java:build/classes/java/main/com/example/LeftPadder.class:99PUNZm+uo4Rp5feNB5d/g==:HeDsMUqerZxYhOi8+SyxHA==
-                com.example.LeftPadderTest:src/test/java/com/example/LeftPadderTest.java:build/classes/java/test/com/example/LeftPadderTest.class:tmeyvGT5uJAMQyQzbqbvyg==:zEb0x7PQhzYAh00yZX50Wg==
-                com.example.RightPadder:src/main/java/com/example/RightPadder.java:build/classes/java/main/com/example/RightPadder.class:lbQRvgnICPwJcg0ObY2wfA==:FgPLN2IwhX2Y1n7TLYG9aw==
-                com.example.RightPadderTest:src/test/java/com/example/RightPadderTest.java:build/classes/java/test/com/example/RightPadderTest.class:LfOMUnHmz0Gqv48PyG+Arw==:pfL18c7B6SOZiFB+TsHpaw==
-                com.example.StringUtils:src/main/java/com/example/StringUtils.java:build/classes/java/main/com/example/StringUtils.class:OUit8FjiK8bRBHkjssO9+Q==:TB3Ri7NR47VGzsGKfSF6cg==
-                com.example.StringUtilsTest:src/test/java/com/example/StringUtilsTest.java:build/classes/java/test/com/example/StringUtilsTest.class:yq8CHRvmLIB5vb/eqkOlIw==:KJg84+nME0Yh7uBsXwv9Vg==
-                com.example.TestConstants:src/test/java/com/example/TestConstants.java:build/classes/java/test/com/example/TestConstants.class:nK/HNeYLMeGZk5hlcPS8Yg==:CjlZNllkdXvp5RozTW9ycQ==""");
+        assertThat(analyzedFilesTxtContent).contains("""
+                build/classes/java/main/com/example/LeftPadder.class:HeDsMUqerZxYhOi8+SyxHA==
+                build/classes/java/main/com/example/RightPadder.class:FgPLN2IwhX2Y1n7TLYG9aw==
+                build/classes/java/main/com/example/StringUtils.class:TB3Ri7NR47VGzsGKfSF6cg==
+                build/classes/java/test/com/example/LeftPadderTest.class:zEb0x7PQhzYAh00yZX50Wg==
+                build/classes/java/test/com/example/RightPadderTest.class:pfL18c7B6SOZiFB+TsHpaw==
+                build/classes/java/test/com/example/StringUtilsTest.class:KJg84+nME0Yh7uBsXwv9Vg==
+                build/classes/java/test/com/example/TestConstants.class:CjlZNllkdXvp5RozTW9ycQ==""");
 
         var leftPadderTestCsvFile = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.csv"));
         var leftPadderTestCsv = readAllLines(leftPadderTestCsvFile).stream().sorted().collect(joining(lineSeparator()));

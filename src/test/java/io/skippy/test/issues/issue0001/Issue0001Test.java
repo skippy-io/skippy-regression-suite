@@ -51,11 +51,9 @@ public class Issue0001Test {
         var output = result.getOutput();
 
         assertThat(output).contains("""
-            No skippified tests found.
-            > Task :clean UP-TO-DATE
-            > Task :skippyClean
-            > Task :skippyAnalyze SKIPPED
-                    
+            > Task :skippyAnalyze
+            Creating the Skippy analysis file skippy/analyzedFiles.txt.
+                        
             BUILD SUCCESSFUL""");
     }
 
