@@ -118,21 +118,16 @@ public class GradleJunit5TutorialTest {
 
 
         var snapshotMd5File = projectDir.toPath().resolve(Path.of("skippy", "analyzedFiles.txt"));
-        var snapshotMd5Content = readAllLines(snapshotMd5File).stream().sorted().collect(joining(lineSeparator()))
-                .replaceAll(projectDir.toString() + "/src/main/java/", "")
-                .replaceAll(projectDir.toString() + "/src/test/java/", "")
-                .replaceAll(projectDir.toString() + "/build/classes/java/main/", "")
-                .replaceAll(projectDir.toString() + "/build/classes/java/test/", "");
-
+        var snapshotMd5Content = readAllLines(snapshotMd5File).stream().sorted().collect(joining(lineSeparator()));
 
         assertThat(snapshotMd5Content).contains("""
-                com.example.LeftPadder:com/example/LeftPadder.java:com/example/LeftPadder.class:99PUNZm+uo4Rp5feNB5d/g==:HeDsMUqerZxYhOi8+SyxHA==
-                com.example.LeftPadderTest:com/example/LeftPadderTest.java:com/example/LeftPadderTest.class:tmeyvGT5uJAMQyQzbqbvyg==:zEb0x7PQhzYAh00yZX50Wg==
-                com.example.RightPadder:com/example/RightPadder.java:com/example/RightPadder.class:lbQRvgnICPwJcg0ObY2wfA==:FgPLN2IwhX2Y1n7TLYG9aw==
-                com.example.RightPadderTest:com/example/RightPadderTest.java:com/example/RightPadderTest.class:LfOMUnHmz0Gqv48PyG+Arw==:pfL18c7B6SOZiFB+TsHpaw==
-                com.example.StringUtils:com/example/StringUtils.java:com/example/StringUtils.class:OUit8FjiK8bRBHkjssO9+Q==:TB3Ri7NR47VGzsGKfSF6cg==
-                com.example.StringUtilsTest:com/example/StringUtilsTest.java:com/example/StringUtilsTest.class:yq8CHRvmLIB5vb/eqkOlIw==:KJg84+nME0Yh7uBsXwv9Vg==
-                com.example.TestConstants:com/example/TestConstants.java:com/example/TestConstants.class:nK/HNeYLMeGZk5hlcPS8Yg==:CjlZNllkdXvp5RozTW9ycQ==""");
+                com.example.LeftPadder:src/main/java/com/example/LeftPadder.java:build/classes/java/main/com/example/LeftPadder.class:99PUNZm+uo4Rp5feNB5d/g==:HeDsMUqerZxYhOi8+SyxHA==
+                com.example.LeftPadderTest:src/test/java/com/example/LeftPadderTest.java:build/classes/java/test/com/example/LeftPadderTest.class:tmeyvGT5uJAMQyQzbqbvyg==:zEb0x7PQhzYAh00yZX50Wg==
+                com.example.RightPadder:src/main/java/com/example/RightPadder.java:build/classes/java/main/com/example/RightPadder.class:lbQRvgnICPwJcg0ObY2wfA==:FgPLN2IwhX2Y1n7TLYG9aw==
+                com.example.RightPadderTest:src/test/java/com/example/RightPadderTest.java:build/classes/java/test/com/example/RightPadderTest.class:LfOMUnHmz0Gqv48PyG+Arw==:pfL18c7B6SOZiFB+TsHpaw==
+                com.example.StringUtils:src/main/java/com/example/StringUtils.java:build/classes/java/main/com/example/StringUtils.class:OUit8FjiK8bRBHkjssO9+Q==:TB3Ri7NR47VGzsGKfSF6cg==
+                com.example.StringUtilsTest:src/test/java/com/example/StringUtilsTest.java:build/classes/java/test/com/example/StringUtilsTest.class:yq8CHRvmLIB5vb/eqkOlIw==:KJg84+nME0Yh7uBsXwv9Vg==
+                com.example.TestConstants:src/test/java/com/example/TestConstants.java:build/classes/java/test/com/example/TestConstants.class:nK/HNeYLMeGZk5hlcPS8Yg==:CjlZNllkdXvp5RozTW9ycQ==""");
 
         var leftPadderTestCsvFile = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.csv"));
         var leftPadderTestCsv = readAllLines(leftPadderTestCsvFile).stream().sorted().collect(joining(lineSeparator()));
