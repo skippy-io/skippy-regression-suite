@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.skippy.test.issues.issue0001;
+package io.skippy.test.issues;
 
 import io.skippy.test.SkippyVersion;
 import org.gradle.testkit.runner.BuildResult;
@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
 
+import static java.lang.System.lineSeparator;
 import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -37,10 +38,10 @@ public class Issue0001Test {
     @Test
     public void testIssue0001() throws Exception {
 
-        var buildFileTemplate = new File(getClass().getResource("build.gradle.template").toURI());
+        var buildFileTemplate = new File(getClass().getResource("issue0001/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
-        String buildfile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
-        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildfile);
+        String buildFile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildFile);
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
@@ -49,12 +50,12 @@ public class Issue0001Test {
                 .build();
 
         var output = result.getOutput();
+        var lines = output.split(lineSeparator());
 
-        assertThat(output).contains("""
-            > Task :skippyAnalyze
-            Creating the Skippy analysis file skippy/analyzedFiles.txt.
-                        
-            BUILD SUCCESSFUL""");
+        assertThat(lines).containsSubsequence(
+            "> Task :skippyAnalyze",
+            "Creating the Skippy analysis file skippy/analyzedFiles.txt."
+        );
     }
 
 }

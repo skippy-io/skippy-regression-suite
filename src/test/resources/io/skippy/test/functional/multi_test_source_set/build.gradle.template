@@ -1,0 +1,78 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+        classpath 'io.skippy:skippy-gradle:${skippyVersion}'
+    }
+}
+
+apply plugin: io.skippy.gradle.SkippyPlugin;
+
+skippy {
+    sourceSet {
+        name = 'test'
+        testTask = 'test'
+    }
+    sourceSet {
+        name = 'intTest'
+        testTask = 'integrationTest'
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+sourceSets {
+    intTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+dependencies {
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+
+    testImplementation 'io.skippy:skippy-junit5:${skippyVersion}'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+
+    intTestImplementation 'io.skippy:skippy-junit5:${skippyVersion}'
+    intTestImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    intTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
+    }
+    useJUnitPlatform()
+}
+
+configurations {
+    intTestImplementation.extendsFrom implementation
+    intTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.intTest.output.classesDirs
+    classpath = sourceSets.intTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
+    }
+}
+
+check.dependsOn integrationTest

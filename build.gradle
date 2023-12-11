@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
@@ -17,6 +18,10 @@ dependencies {
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
+
+    // added to makes it easier to set a breakpoint
+    implementation 'io.skippy:skippy-junit5:0.0.7-SNAPSHOT'
+    implementation 'io.skippy:skippy-gradle:0.0.7-SNAPSHOT'
 }
 
 test {

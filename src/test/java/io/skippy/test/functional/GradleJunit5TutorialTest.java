@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.skippy.test.functional.gradle_junit5_tutorial;
+package io.skippy.test.functional;
 
 import io.skippy.test.SkippyVersion;
 import org.gradle.testkit.runner.BuildResult;
@@ -41,72 +41,64 @@ public class GradleJunit5TutorialTest {
     @Test
     public void runTestsWithoutAnalysis() throws Exception {
 
-        var buildFileTemplate = new File(getClass().getResource("build.gradle.template").toURI());
+        var buildFileTemplate = new File(getClass().getResource("gradle_junit5_tutorial/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
-        String buildfile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
-        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildfile);
+        String buildFile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildFile);
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
+                .withDebug(true)
                 .withArguments("clean", "skippyClean", "test")
                 .forwardOutput()
                 .build();
 
         var output = result.getOutput();
+        var lines = output.split(lineSeparator());
 
-        assertThat(output).contains("""             
-            > Task :test
+        assertThat(lines).containsSubsequence(
+            "> Task :test",
+
+            "    DEBUG i.s.c.SkippyAnalysis - com.example.LeftPadderTest: No analysis found. Execution required.",
+            "LeftPadderTest > testPadLeft() PASSED",
+
+            "    DEBUG i.s.c.SkippyAnalysis - com.example.RightPadderTest: No analysis found. Execution required.",
+            "RightPadderTest > testPadLeft() PASSED",
                         
-            LeftPadderTest STANDARD_OUT
-                DEBUG i.s.c.SkippyAnalysis - com.example.LeftPadderTest: No analysis found. Execution required.
-                        
-            LeftPadderTest > testPadLeft() PASSED
-                        
-            RightPadderTest STANDARD_OUT
-                DEBUG i.s.c.SkippyAnalysis - com.example.RightPadderTest: No analysis found. Execution required.
-                        
-            RightPadderTest > testPadLeft() PASSED
-                        
-            StringUtilsTest > testPadLeft() PASSED
-                        
-            StringUtilsTest > testPadRight() PASSED
-            """);
+            "StringUtilsTest > testPadLeft() PASSED",
+            "StringUtilsTest > testPadRight() PASSED"
+        );
     }
 
     @Test
     public void runTestsWithAnalysis() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("build.gradle.template").toURI());
+        var buildFileTemplate = new File(getClass().getResource("gradle_junit5_tutorial/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
-        String buildfile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
-        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildfile);
+        String buildFile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        Files.writeString(projectDir.toPath().resolve("build.gradle"), buildFile);
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("clean", "skippyClean", "skippyAnalyze", "test", "--refresh-dependencies", "--info")
+                .withDebug(true)
+                .withArguments("clean", "skippyAnalyze", "test")
                 .forwardOutput()
                 .build();
 
         var output = result.getOutput();
-
-        var LOG_PREFIX_PATTERN ="\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}-\\d{4} \\[\\w+\\] \\[[\\w. ]+\\] ";
-        output = output.replaceAll(LOG_PREFIX_PATTERN, "");
-
         var lines = output.split(lineSeparator());
 
         assertThat(lines).containsSubsequence(
             "> Task :skippyClean",
             "> Task :skippyAnalyze",
-            "Capturing coverage data for com.example.LeftPadderTest in skippy/com.example.LeftPadderTest.csv",
-            "Capturing coverage data for com.example.RightPadderTest in skippy/com.example.RightPadderTest.csv",
+            "com.example.LeftPadderTest > Capturing coverage data in skippy/com.example.LeftPadderTest.csv",
+            "com.example.RightPadderTest > Capturing coverage data in skippy/com.example.RightPadderTest.csv",
             "Creating the Skippy analysis file skippy/analyzedFiles.txt."
         );
 
         assertThat(lines).containsSubsequence(
-            "LeftPadderTest STANDARD_OUT",
             "    DEBUG i.s.c.SkippyAnalysis - com.example.LeftPadderTest: No changes in test or covered classes detected. Execution skipped.",
             "LeftPadderTest > testPadLeft() SKIPPED",
 
-            "RightPadderTest STANDARD_OUT",
             "    DEBUG i.s.c.SkippyAnalysis - com.example.RightPadderTest: No changes in test or covered classes detected. Execution skipped.",
             "RightPadderTest > testPadLeft() SKIPPED"
         );
@@ -116,13 +108,13 @@ public class GradleJunit5TutorialTest {
         var analyzedFilesTxtContent = readAllLines(analyzedFilesTxt).stream().sorted().collect(joining(lineSeparator()));
 
         assertThat(analyzedFilesTxtContent).contains("""
-                build/classes/java/main/com/example/LeftPadder.class:HeDsMUqerZxYhOi8+SyxHA==
-                build/classes/java/main/com/example/RightPadder.class:FgPLN2IwhX2Y1n7TLYG9aw==
-                build/classes/java/main/com/example/StringUtils.class:TB3Ri7NR47VGzsGKfSF6cg==
-                build/classes/java/test/com/example/LeftPadderTest.class:zEb0x7PQhzYAh00yZX50Wg==
-                build/classes/java/test/com/example/RightPadderTest.class:pfL18c7B6SOZiFB+TsHpaw==
-                build/classes/java/test/com/example/StringUtilsTest.class:KJg84+nME0Yh7uBsXwv9Vg==
-                build/classes/java/test/com/example/TestConstants.class:CjlZNllkdXvp5RozTW9ycQ==""");
+                build/classes/java/main/com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
+                build/classes/java/main/com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
+                build/classes/java/main/com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
+                build/classes/java/test/com/example/LeftPadderTest.class:3KxzE+CKm6BJ3KetctvnNA==
+                build/classes/java/test/com/example/RightPadderTest.class:naR4eGh3LU+eDNSQXvsIyw==
+                build/classes/java/test/com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
+                build/classes/java/test/com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
         var leftPadderTestCsvFile = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.csv"));
         var leftPadderTestCsv = readAllLines(leftPadderTestCsvFile).stream().sorted().collect(joining(lineSeparator()));
