@@ -96,7 +96,7 @@ public class MultiTestSourceSetTest {
             "com.example.LeftPadderTest > Capturing coverage data in skippy/com.example.LeftPadderTest.csv",
             "com.example.RightPadderTest > Capturing coverage data in skippy/com.example.RightPadderTest.csv",
             "com.example.SkippifiedStringUtilsTest > Capturing coverage data in skippy/com.example.SkippifiedStringUtilsTest.csv",
-            "Creating the Skippy analysis file skippy/analyzedFiles.txt."
+            "Storing hashes for all class files in skippy/classes.md5."
         );
 
         assertThat(lines).containsSubsequence(
@@ -116,10 +116,10 @@ public class MultiTestSourceSetTest {
             "StringUtilsTest > testPadRight() PASSED"
         );
 
-        var analyzedFilesTxt = projectDir.toPath().resolve(Path.of("skippy", "analyzedFiles.txt"));
-        var analyzedFilesTxtContent = readAllLines(analyzedFilesTxt).stream().sorted().collect(joining(lineSeparator()));
+        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        var classesMd5TxtContent = readAllLines(classesMd5Txt).stream().sorted().collect(joining(lineSeparator()));
 
-        assertThat(analyzedFilesTxtContent).contains("""
+        assertThat(classesMd5TxtContent).contains("""
                 build/classes/java/intTest/com/example/SkippifiedStringUtilsTest.class:khpiK6S61HhAalSnSOXpyg==
                 build/classes/java/intTest/com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
                 build/classes/java/intTest/com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==

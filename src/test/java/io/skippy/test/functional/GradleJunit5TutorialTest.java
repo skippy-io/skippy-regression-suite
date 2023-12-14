@@ -92,7 +92,7 @@ public class GradleJunit5TutorialTest {
             "> Task :skippyAnalyze",
             "com.example.LeftPadderTest > Capturing coverage data in skippy/com.example.LeftPadderTest.csv",
             "com.example.RightPadderTest > Capturing coverage data in skippy/com.example.RightPadderTest.csv",
-            "Creating the Skippy analysis file skippy/analyzedFiles.txt."
+            "Storing hashes for all class files in skippy/classes.md5."
         );
 
         assertThat(lines).containsSubsequence(
@@ -104,10 +104,10 @@ public class GradleJunit5TutorialTest {
         );
 
 
-        var analyzedFilesTxt = projectDir.toPath().resolve(Path.of("skippy", "analyzedFiles.txt"));
-        var analyzedFilesTxtContent = readAllLines(analyzedFilesTxt).stream().sorted().collect(joining(lineSeparator()));
+        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        var classesMd5TxtContent = readAllLines(classesMd5Txt).stream().sorted().collect(joining(lineSeparator()));
 
-        assertThat(analyzedFilesTxtContent).contains("""
+        assertThat(classesMd5TxtContent).contains("""
                 build/classes/java/main/com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
                 build/classes/java/main/com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
                 build/classes/java/main/com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
