@@ -57,7 +57,6 @@ public class MultiTestSourceSetTest {
         var lines = output.split(lineSeparator());
 
         assertThat(lines).containsSubsequence(
-            "> Task :skippyClean",
             "> Task :skippyAnalyze",
             "Writing skippy/classes.md5",
             "Writing skippy/com.example.LeftPadderTest.cov",

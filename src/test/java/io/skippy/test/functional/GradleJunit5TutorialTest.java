@@ -27,10 +27,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.lang.System.lineSeparator;
-import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
 import static java.util.regex.Pattern.quote;
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -58,8 +56,6 @@ public class GradleJunit5TutorialTest {
         var lines = output.split(lineSeparator());
 
         assertThat(lines).containsSubsequence(
-            "> Task :clean",
-            "> Task :skippyClean",
             "> Task :skippyAnalyze",
             "Writing skippy/classes.md5",
             "Writing skippy/com.example.LeftPadderTest.cov",
