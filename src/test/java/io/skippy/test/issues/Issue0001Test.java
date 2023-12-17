@@ -54,7 +54,7 @@ public class Issue0001Test {
 
         assertThat(lines).containsSubsequence(
             "> Task :skippyAnalyze",
-            "Storing hashes for all class files in skippy/classes.md5."
+            "Writing skippy/classes.md5"
         );
     }
 
