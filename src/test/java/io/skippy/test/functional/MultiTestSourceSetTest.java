@@ -66,14 +66,14 @@ public class MultiTestSourceSetTest {
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/intTest:com/example/SkippifiedStringUtilsTest.class:khpiK6S61HhAalSnSOXpyg==
+            build/classes/java/intTest:com/example/SkippifiedStringUtilsTest.class:lsiQc/4vvj3hR525yYYHMg==
             build/classes/java/intTest:com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
             build/classes/java/intTest:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==
             build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
             build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:3KxzE+CKm6BJ3KetctvnNA==
-            build/classes/java/test:com/example/RightPadderTest.class:naR4eGh3LU+eDNSQXvsIyw==
+            build/classes/java/test:com/example/LeftPadderTest.class:sGLJTZJw4beE9m2Kg6chUg==
+            build/classes/java/test:com/example/RightPadderTest.class:wAwQMlDS3xxmX/Yl5fsSdA==
             build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
         var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));

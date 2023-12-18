@@ -47,7 +47,6 @@ public class GradleJunit5TutorialTest {
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withDebug(true)
                 .withArguments("skippyAnalyze")
                 .forwardOutput()
                 .build();
@@ -67,8 +66,8 @@ public class GradleJunit5TutorialTest {
             build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
             build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:3KxzE+CKm6BJ3KetctvnNA==
-            build/classes/java/test:com/example/RightPadderTest.class:naR4eGh3LU+eDNSQXvsIyw==
+            build/classes/java/test:com/example/LeftPadderTest.class:sGLJTZJw4beE9m2Kg6chUg==
+            build/classes/java/test:com/example/RightPadderTest.class:wAwQMlDS3xxmX/Yl5fsSdA==
             build/classes/java/test:com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
             build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
