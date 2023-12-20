@@ -23,6 +23,6 @@ package io.skippy.test;
  */
 public class SkippyVersion {
 
-    public static String VERSION = "0.0.7-SNAPSHOT";
+    public static String VERSION = "0.0.7";
 
 }
