@@ -58,10 +58,10 @@ public class MultiTestSourceSetTest {
 
         assertThat(lines).containsSubsequence(
             "> Task :skippyAnalyze",
-            "Writing skippy/classes.md5",
             "Writing skippy/com.example.LeftPadderTest.cov",
             "Writing skippy/com.example.RightPadderTest.cov",
-            "Writing skippy/com.example.SkippifiedStringUtilsTest.cov"
+            "Writing skippy/com.example.SkippifiedStringUtilsTest.cov",
+            "Writing skippy/classes.md5"
         );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
