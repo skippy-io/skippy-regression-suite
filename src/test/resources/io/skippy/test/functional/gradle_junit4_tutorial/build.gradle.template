@@ -18,3 +18,10 @@ repositories {
 dependencies {
     testImplementation 'io.skippy:skippy-junit4:${skippyVersion}'
 }
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
+    }
+}
