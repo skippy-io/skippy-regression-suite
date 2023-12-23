@@ -16,9 +16,5 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'io.skippy:skippy-junit5:${skippyVersion}'
-}
-
-test {
-    useJUnitPlatform()
+    testImplementation 'io.skippy:skippy-junit4:${skippyVersion}'
 }

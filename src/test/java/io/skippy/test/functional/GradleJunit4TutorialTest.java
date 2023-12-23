@@ -32,15 +32,15 @@ import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Functional test for the Getting Started With Gradle & JUnit 5 Tutorial.
+ * Functional test for the Getting Started With Gradle & JUnit 5 Tutorial (but with JUnit 5 being replaced with JUnit 4)
  *
  * @author Florian McKee
  */
-public class GradleJunit5TutorialTest {
+public class GradleJunit4TutorialTest {
 
     @Test
     public void testSkippyAnalysisTask() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("gradle_junit5_tutorial/build.gradle.template").toURI());
+        var buildFileTemplate = new File(getClass().getResource("gradle_junit4_tutorial/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
         String buildFile = readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
         Files.writeString(projectDir.toPath().resolve("build.gradle"), buildFile);
@@ -66,9 +66,9 @@ public class GradleJunit5TutorialTest {
             build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
             build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:sGLJTZJw4beE9m2Kg6chUg==
-            build/classes/java/test:com/example/RightPadderTest.class:wAwQMlDS3xxmX/Yl5fsSdA==
-            build/classes/java/test:com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
+            build/classes/java/test:com/example/LeftPadderTest.class:PfiMSJHtPoujnc6hlyYayA==
+            build/classes/java/test:com/example/RightPadderTest.class:0RaVJ4PjsVSzBTC0Mgey8g==
+            build/classes/java/test:com/example/StringUtilsTest.class:rURYgK6CQqdn6cutCLdqqQ==
             build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
         var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));

@@ -45,7 +45,7 @@ public class Issue0001Test {
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze")
+                .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
 

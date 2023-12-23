@@ -27,10 +27,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.lang.System.lineSeparator;
-import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
 import static java.util.regex.Pattern.quote;
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -49,7 +47,7 @@ public class MultiTestSourceSetTest {
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze")
+                .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
 
