@@ -55,8 +55,8 @@ public class GradleJunit5TutorialTest {
         var lines = output.split(lineSeparator());
 
         assertThat(lines).containsSubsequence(
-                "    INFO  i.s.c.SkippyAnalysis - com.example.LeftPadderTest: No coverage data found: Execution required",
-                "    INFO  i.s.c.SkippyAnalysis - com.example.RightPadderTest: No coverage data found: Execution required"
+                "    INFO  i.s.j.SkippyAnalysis - com.example.LeftPadderTest: No coverage data found: Execution required",
+                "    INFO  i.s.j.SkippyAnalysis - com.example.RightPadderTest: No coverage data found: Execution required"
         );
 
         assertThat(lines).containsSubsequence(
