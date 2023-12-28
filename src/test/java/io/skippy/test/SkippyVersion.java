@@ -23,5 +23,5 @@ package io.skippy.test;
  */
 public class SkippyVersion {
 
-    public static String VERSION = "0.0.9";
+    public static String VERSION = "0.0.10-SNAPSHOT";
 }
