@@ -51,21 +51,11 @@ public class TestFailureTest {
                 .forwardOutput()
                 .buildAndFail();
 
+        // for troubleshooting purposes
         var output = result.getOutput();
-        var lines = output.split(lineSeparator());
-
-        assertThat(lines).contains(
-            "Clearing skippy folder due to build failure"
-        );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
         assertThat(classesMd5Txt.toFile().exists()).isFalse();
-
-        var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));
-        assertThat(leftPadderTestCov.toFile().exists()).isFalse();
-
-        var rightPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.RightPadderTest.cov"));
-        assertThat(rightPadderTestCov.toFile().exists()).isFalse();
     }
 
 }

@@ -28,6 +28,7 @@ import java.nio.file.Path;
 
 import static java.lang.System.lineSeparator;
 import static java.nio.file.Files.readString;
+import static java.nio.file.Files.readAllLines;
 import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -51,19 +52,13 @@ public class GradleJunit5TutorialTest {
                 .forwardOutput()
                 .build();
 
+        // for troubleshooting purposes
         var output = result.getOutput();
-        var lines = output.split(lineSeparator());
 
-        assertThat(lines).containsSubsequence(
-                "    INFO  i.s.j.SkippyAnalysis - com.example.LeftPadderTest: No coverage data found: Execution required",
-                "    INFO  i.s.j.SkippyAnalysis - com.example.RightPadderTest: No coverage data found: Execution required"
-        );
-
-        assertThat(lines).containsSubsequence(
-            "> Task :skippyAnalyze",
-            "Writing skippy/classes.md5",
-            "Writing skippy/com.example.LeftPadderTest.cov",
-            "Writing skippy/com.example.RightPadderTest.cov"
+        var decisionsLog = projectDir.toPath().resolve(Path.of("skippy", "decisions.log"));
+        assertThat(readAllLines(decisionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+         "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
+            "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
