@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.skippy.test.functional;
+package io.skippy.test.issues;
 
 import io.skippy.test.SkippyVersion;
 import org.gradle.testkit.runner.BuildResult;
@@ -27,34 +27,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.lang.System.lineSeparator;
-import static java.nio.file.Files.readString;
+import static java.nio.file.Files.readAllLines;
 import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Functional test to check that the skippy folder is cleared when skippyAnalyze fails.
+ * Functional test for https://github.com/skippy-io/skippy/issues/95.
  *
  * @author Florian McKee
  */
-public class TestFailureTest {
+public class Issue0095Test {
 
     @Test
-    public void testSkippyAnalysisTask() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("test_failure/build.gradle.template").toURI());
+    public void testIssue0095() throws Exception {
+
+        var buildFileTemplate = new File(getClass().getResource("issue0095/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
-        String buildFile = readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
+        String buildFile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
         Files.writeString(projectDir.toPath().resolve("build.gradle"), buildFile);
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
-                .buildAndFail();
+                .withArguments("clean", "test", "--refresh-dependencies")
+                .withDebug(true)
+                .build();
 
-        // for troubleshooting purposes
         var output = result.getOutput();
 
-        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
-        assertThat(classesMd5Txt.toFile().exists()).isFalse();
+        var decisionsLog = projectDir.toPath().resolve(Path.of("skippy", "decisions.log"));
+        assertThat(readAllLines(decisionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+                "com.example.StringUtilsTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
+        );
     }
 
 }

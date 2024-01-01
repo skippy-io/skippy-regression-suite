@@ -17,6 +17,8 @@ dependencies {
     testImplementation gradleTestKit()
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    testRuntimeOnly 'io.skippy:skippy-junit5:0.0.11-SNAPSHOT'
 }
 
 test {

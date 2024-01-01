@@ -48,7 +48,6 @@ public class MultiTestSourceSetTest {
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
-                .forwardOutput()
                 .build();
 
         // for troubleshooting purposes

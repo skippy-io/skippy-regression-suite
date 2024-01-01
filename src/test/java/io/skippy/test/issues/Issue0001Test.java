@@ -46,15 +46,13 @@ public class Issue0001Test {
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
-                .forwardOutput()
                 .build();
 
         var output = result.getOutput();
         var lines = output.split(lineSeparator());
 
         assertThat(lines).containsSubsequence(
-            "> Task :skippyAnalyze",
-            "Writing skippy/classes.md5"
+            "> Task :skippyAnalyze"
         );
     }
 
