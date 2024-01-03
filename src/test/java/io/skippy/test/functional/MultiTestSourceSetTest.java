@@ -39,7 +39,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class MultiTestSourceSetTest {
 
     @Test
-    public void testSkippyAnalysisTask() throws Exception {
+    public void testBuild() throws Exception {
         var buildFileTemplate = new File(getClass().getResource("multi_test_source_set/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
         String buildFile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);

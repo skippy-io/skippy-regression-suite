@@ -26,7 +26,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.lang.System.lineSeparator;
 import static java.nio.file.Files.readString;
 import static java.nio.file.Files.readAllLines;
 import static java.util.regex.Pattern.quote;
@@ -40,7 +39,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class GradleJunit5TutorialTest {
 
     @Test
-    public void testSkippyAnalysisTask() throws Exception {
+    public void testBuild() throws Exception {
         var buildFileTemplate = new File(getClass().getResource("gradle_junit5_tutorial/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
         String buildFile = readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);

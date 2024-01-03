@@ -17,11 +17,11 @@
 package io.skippy.test;
 
 /**
- * The version of Skippy to be used for the integration tests.
+ * The version of Skippy to be used for the functional tests.
  *
  * @author Florian McKee
  */
 public class SkippyVersion {
 
-    public static String VERSION = "0.0.11";
+    public static String VERSION = "0.0.12-SNAPSHOT";
 }

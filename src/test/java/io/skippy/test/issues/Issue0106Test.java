@@ -17,42 +17,44 @@
 package io.skippy.test.issues;
 
 import io.skippy.test.SkippyVersion;
-import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
-import static java.lang.System.lineSeparator;
+import static java.nio.file.Files.readAllLines;
 import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Functional test for https://github.com/skippy-io/skippy/issues/1.
+ * Functional test for https://github.com/skippy-io/skippy/issues/106.
  *
  * @author Florian McKee
  */
-public class Issue0001Test {
+public class Issue0106Test {
 
     @Test
     public void testBuild() throws Exception {
 
-        var buildFileTemplate = new File(getClass().getResource("issue0001/build.gradle.template").toURI());
+        var buildFileTemplate = new File(getClass().getResource("issue0106/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
         String buildFile = Files.readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);
         Files.writeString(projectDir.toPath().resolve("build.gradle"), buildFile);
 
-        BuildResult result = GradleRunner.create()
+        var result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("clean", "test", "--refresh-dependencies")
                 .build();
 
+        // for troubleshooting purposes
         var output = result.getOutput();
-        var lines = output.split(lineSeparator());
 
-        assertThat(lines).containsSubsequence(
-            "> Task :skippyAnalyze"
+        var decisionsLog = projectDir.toPath().resolve(Path.of("skippy", "decisions.log"));
+        assertThat(readAllLines(decisionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+                "com.example.FooTest:SKIP:NO_CHANGE"
         );
     }
 

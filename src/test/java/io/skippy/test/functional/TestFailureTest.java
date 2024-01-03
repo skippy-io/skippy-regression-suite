@@ -22,11 +22,9 @@ import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.lang.System.lineSeparator;
 import static java.nio.file.Files.readString;
 import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -39,7 +37,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TestFailureTest {
 
     @Test
-    public void testSkippyAnalysisTask() throws Exception {
+    public void testBuild() throws Exception {
         var buildFileTemplate = new File(getClass().getResource("test_failure/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
         String buildFile = readString(buildFileTemplate.toPath()).replaceAll(quote("${skippyVersion}"), SkippyVersion.VERSION);

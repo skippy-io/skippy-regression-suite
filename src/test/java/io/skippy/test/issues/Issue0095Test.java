@@ -26,7 +26,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.lang.System.lineSeparator;
 import static java.nio.file.Files.readAllLines;
 import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -39,7 +38,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class Issue0095Test {
 
     @Test
-    public void testIssue0095() throws Exception {
+    public void testBuild() throws Exception {
 
         var buildFileTemplate = new File(getClass().getResource("issue0095/build.gradle.template").toURI());
         var projectDir = buildFileTemplate.getParentFile();
@@ -49,9 +48,9 @@ public class Issue0095Test {
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("clean", "test", "--refresh-dependencies")
-                .withDebug(true)
                 .build();
 
+        // for troubleshooting purposes
         var output = result.getOutput();
 
         var decisionsLog = projectDir.toPath().resolve(Path.of("skippy", "decisions.log"));
