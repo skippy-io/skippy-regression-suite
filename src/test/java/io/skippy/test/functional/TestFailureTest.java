@@ -30,7 +30,7 @@ import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Functional test to check that the skippy folder is cleared when skippyAnalyze fails.
+ * Functional test to check that the classes.md5 file is not created when skippyAnalyze fails.
  *
  * @author Florian McKee
  */
