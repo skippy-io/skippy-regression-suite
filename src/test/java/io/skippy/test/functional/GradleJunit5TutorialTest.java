@@ -53,8 +53,8 @@ public class GradleJunit5TutorialTest {
         // for troubleshooting purposes
         var output = result.getOutput();
 
-        var decisionsLog = projectDir.toPath().resolve(Path.of("skippy", "decisions.log"));
-        assertThat(readAllLines(decisionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+        assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
          "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
             "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );

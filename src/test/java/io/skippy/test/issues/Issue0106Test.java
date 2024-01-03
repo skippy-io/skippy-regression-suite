@@ -52,8 +52,8 @@ public class Issue0106Test {
         // for troubleshooting purposes
         var output = result.getOutput();
 
-        var decisionsLog = projectDir.toPath().resolve(Path.of("skippy", "decisions.log"));
-        assertThat(readAllLines(decisionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+        assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
                 "com.example.FooTest:SKIP:NO_CHANGE"
         );
     }
