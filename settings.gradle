@@ -1,0 +1,7 @@
+include 'projects:junit4-smoketest'
+include 'projects:junit5-smoketest'
+include 'projects:multiple-junit5-extensions'
+include 'projects:multiple-test-sourcesets'
+include 'projects:no-skippy-plugin'
+include 'projects:project-without-tests'
+include 'projects:test-failure'

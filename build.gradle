@@ -18,8 +18,31 @@ dependencies {
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
-    testRuntimeOnly 'io.skippy:skippy-junit5:0.0.11-SNAPSHOT'
 }
+
+task copyProjectsToResourcesFolder(type: Copy) {
+    from 'projects'
+    into 'src/test/resources/projects'
+}
+
+task replaceSkippyVersionAndWriteEmptySettingsFile {
+    doLast {
+        fileTree(dir: '.', include: 'src/test/resources/projects/**/build.gradle').each { File file ->
+            var content = file.text
+            content = content.replaceAll('project.skippyVersion', "'${project.skippyVersion}'")
+            file.write(content)
+
+            File settingsFile = new File(file.parent, "settings.gradle")
+            if (!settingsFile.exists()) {
+                settingsFile.createNewFile()
+            }
+
+        }
+    }
+}
+
+replaceSkippyVersionAndWriteEmptySettingsFile.dependsOn copyProjectsToResourcesFolder
+processTestResources.dependsOn replaceSkippyVersionAndWriteEmptySettingsFile
 
 test {
     testLogging {
