@@ -37,9 +37,7 @@ public class JUnit4SmokeTest {
 
     @Test
     public void testBuild() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("/projects/junit4-smoketest/build.gradle").toURI());
-        var projectDir = buildFileTemplate.getParentFile();
-
+        var projectDir = new File(getClass().getResource("/test-projects/junit4-smoketest").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")

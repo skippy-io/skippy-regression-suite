@@ -42,4 +42,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-/src/test/resources/projects
+/src/test/resources/test-projects

@@ -37,9 +37,7 @@ public class ProjectWithoutTestsTest {
 
     @Test
     public void testBuild() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("/projects/project-without-tests/build.gradle").toURI());
-        var projectDir = buildFileTemplate.getParentFile();
-
+        var projectDir = new File(getClass().getResource("/test-projects/project-without-tests").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")

@@ -37,9 +37,7 @@ public class NoSkippyPluginTest {
 
     @Test
     public void testBuild() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("/projects/no-skippy-plugin/build.gradle").toURI());
-        var projectDir = buildFileTemplate.getParentFile();
-
+        var projectDir = new File(getClass().getResource("/test-projects/no-skippy-plugin").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("check", "--refresh-dependencies")

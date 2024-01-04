@@ -37,9 +37,7 @@ public class MultipleTestSourceSetsTest {
 
     @Test
     public void testBuild() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("/projects/multiple-test-sourcesets/build.gradle").toURI());
-        var projectDir = buildFileTemplate.getParentFile();
-
+        var projectDir = new File(getClass().getResource("/test-projects/multiple-test-sourcesets").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")

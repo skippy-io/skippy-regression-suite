@@ -21,13 +21,13 @@ dependencies {
 }
 
 task copyProjectsToResourcesFolder(type: Copy) {
-    from 'projects'
-    into 'src/test/resources/projects'
+    from 'test-projects'
+    into 'src/test/resources/test-projects'
 }
 
 task replaceSkippyVersionAndWriteEmptySettingsFile {
     doLast {
-        fileTree(dir: '.', include: 'src/test/resources/projects/**/build.gradle').each { File file ->
+        fileTree(dir: '.', include: 'src/test/resources/test-projects/**/build.gradle').each { File file ->
             var content = file.text
             content = content.replaceAll('project.skippyVersion', "'${project.skippyVersion}'")
             file.write(content)
@@ -41,13 +41,15 @@ task replaceSkippyVersionAndWriteEmptySettingsFile {
     }
 }
 
+clean {
+    doLast {
+        new File('src/test/resources/test-projects/').deleteDir()
+    }
+}
+
 replaceSkippyVersionAndWriteEmptySettingsFile.dependsOn copyProjectsToResourcesFolder
 processTestResources.dependsOn replaceSkippyVersionAndWriteEmptySettingsFile
 
 test {
-    testLogging {
-        events "passed", "skipped", "failed"
-        exceptionFormat "full"
-    }
     useJUnitPlatform()
 }
