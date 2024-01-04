@@ -1,5 +1,7 @@
+include 'projects:junit4-multiple-test-methods-with-different-targets'
 include 'projects:junit4-smoketest'
 include 'projects:junit5-smoketest'
+include 'projects:junit5-multiple-test-methods-with-different-targets'
 include 'projects:multiple-junit5-extensions'
 include 'projects:multiple-test-sourcesets'
 include 'projects:no-skippy-plugin'
