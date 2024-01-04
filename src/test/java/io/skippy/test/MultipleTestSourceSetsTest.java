@@ -37,7 +37,7 @@ public class MultipleTestSourceSetsTest {
 
     @Test
     public void testBuild() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("/projects/multiple-test-sourcesets-test/build.gradle").toURI());
+        var buildFileTemplate = new File(getClass().getResource("/projects/multiple-test-sourcesets/build.gradle").toURI());
         var projectDir = buildFileTemplate.getParentFile();
 
         BuildResult result = GradleRunner.create()

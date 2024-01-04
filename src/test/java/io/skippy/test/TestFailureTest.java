@@ -38,7 +38,7 @@ public class TestFailureTest {
 
     @Test
     public void testBuild() throws Exception {
-        var buildFileTemplate = new File(getClass().getResource("/projects/test-failure-test/build.gradle").toURI());
+        var buildFileTemplate = new File(getClass().getResource("/projects/test-failure/build.gradle").toURI());
         var projectDir = buildFileTemplate.getParentFile();
 
         BuildResult result = GradleRunner.create()
