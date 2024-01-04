@@ -1,9 +1,3 @@
-include 'test-projects:junit4-multiple-test-methods-with-different-targets'
-include 'test-projects:junit4-smoketest'
-include 'test-projects:junit5-smoketest'
-include 'test-projects:junit5-multiple-test-methods-with-different-targets'
-include 'test-projects:multiple-junit5-extensions'
-include 'test-projects:multiple-test-sourcesets'
-include 'test-projects:no-skippy-plugin'
-include 'test-projects:project-without-tests'
-include 'test-projects:test-failure'
+file("${rootDir}/test-projects").eachDir {
+    include "test-projects:${it.name}"
+}
