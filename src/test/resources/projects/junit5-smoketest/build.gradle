@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+        classpath 'io.skippy:skippy-gradle:' + '0.0.12'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: io.skippy.gradle.SkippyPlugin;
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+dependencies {
+    testImplementation 'io.skippy:skippy-junit5:' + '0.0.12'
+}
+
+test {
+    useJUnitPlatform()
+}
