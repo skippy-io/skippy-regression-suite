@@ -25,6 +25,7 @@ task replaceSkippyVersionAndWriteEmptySettingsFile {
         fileTree(dir: '.', include: 'src/test/resources/test-projects/**/build.gradle').each { File file ->
             var content = file.text
             content = content.replaceAll('project.skippyVersion', "'${project.skippyVersion}'")
+            content = content.replaceAll('project.junit4Version', "'${project.junit4Version}'")
             content = content.replaceAll('project.junit5Version', "'${project.junit5Version}'")
             file.write(content)
 

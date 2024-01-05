@@ -18,7 +18,6 @@ package io.skippy.test;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -32,33 +31,21 @@ import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis using multiple versions of JUnit 5
+ * Test Impact Analysis using multiple versions of JUnit 4
  *
  * @author Florian McKee
  */
 
-public class JUnit5CompatibilityTest {
+public class JUnit4CompatibilityTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "5.0.0",
-            "5.1.0",
-            "5.2.0",
-            "5.3.0",
-            "5.4.0",
-            "5.5.0",
-            "5.6.0",
-            "5.7.0",
-            "5.8.0",
-            "5.9.0",
-            "5.10.0"
-    })
+    @ValueSource(strings = {"4.10", "4.11", "4.13", "4.13.1", "4.13.2"})
     public void testBuild(String junit5Version) throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/junit5-compatibility").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/junit4-compatibility").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withEnvironment(Map.of("junit5Version", junit5Version))
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withEnvironment(Map.of("junit4Version", junit5Version))
+                .withArguments("dependencies", "skippyAnalyze", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
 
@@ -67,8 +54,8 @@ public class JUnit5CompatibilityTest {
 
         var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-         "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
-            "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
+                "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
+                "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
@@ -76,9 +63,9 @@ public class JUnit5CompatibilityTest {
             build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
             build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:sGLJTZJw4beE9m2Kg6chUg==
-            build/classes/java/test:com/example/RightPadderTest.class:wAwQMlDS3xxmX/Yl5fsSdA==
-            build/classes/java/test:com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
+            build/classes/java/test:com/example/LeftPadderTest.class:PfiMSJHtPoujnc6hlyYayA==
+            build/classes/java/test:com/example/RightPadderTest.class:0RaVJ4PjsVSzBTC0Mgey8g==
+            build/classes/java/test:com/example/StringUtilsTest.class:rURYgK6CQqdn6cutCLdqqQ==
             build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
         var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));
