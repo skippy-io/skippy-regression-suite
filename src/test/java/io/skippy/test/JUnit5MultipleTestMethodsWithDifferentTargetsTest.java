@@ -18,14 +18,13 @@ package io.skippy.test;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Map;
 
-import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -37,7 +36,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
 
     @Test
-    @Disabled
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-multiple-test-methods-with-different-targets").toURI());
         BuildResult result = GradleRunner.create()

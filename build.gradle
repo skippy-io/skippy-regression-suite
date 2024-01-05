@@ -8,16 +8,11 @@ repositories {
 }
 
 dependencies {
-
-    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testImplementation 'org.assertj:assertj-core:3.24.2'
     testImplementation gradleTestKit()
-
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-
 }
 
 task copyProjectsToResourcesFolder(type: Copy) {
@@ -30,6 +25,7 @@ task replaceSkippyVersionAndWriteEmptySettingsFile {
         fileTree(dir: '.', include: 'src/test/resources/test-projects/**/build.gradle').each { File file ->
             var content = file.text
             content = content.replaceAll('project.skippyVersion', "'${project.skippyVersion}'")
+            content = content.replaceAll('project.junit5Version', "'${project.junit5Version}'")
             file.write(content)
 
             File settingsFile = new File(file.parent, "settings.gradle")
@@ -51,5 +47,8 @@ replaceSkippyVersionAndWriteEmptySettingsFile.dependsOn copyProjectsToResourcesF
 processTestResources.dependsOn replaceSkippyVersionAndWriteEmptySettingsFile
 
 test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
     useJUnitPlatform()
 }

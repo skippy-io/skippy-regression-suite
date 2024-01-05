@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+        classpath 'io.skippy:skippy-gradle:' + project.skippyVersion
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: io.skippy.gradle.SkippyPlugin;
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "org.junit.jupiter:junit-jupiter-engine:${System.env.junit5Version ?: project.junit5Version}"
+        force "org.junit.jupiter:junit-jupiter-api:${System.env.junit5Version ?: project.junit5Version}"
+    }
+}
+
+dependencies {
+    testImplementation 'io.skippy:skippy-junit5:' + project.skippyVersion
+}
+
+test {
+    useJUnitPlatform()
+}
