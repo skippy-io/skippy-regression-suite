@@ -31,20 +31,25 @@ import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis using multiple versions of JUnit 4
+ * Test Impact Analysis using multiple versions of JaCoCo
  *
  * @author Florian McKee
  */
 
-public class JUnit4CompatibilityTest {
+public class JacocoCompatibilityTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"4.10", "4.11", "4.13", "4.13.1", "4.13.2"})
-    public void testBuild(String junit5Version) throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/junit4-compatibility").toURI());
+    @ValueSource(strings = {
+            "0.8.7",
+            "0.8.8",
+            "0.8.10",
+            "0.8.11"
+    })
+    public void testBuild(String jacocoVersion) throws Exception {
+        var projectDir = new File(getClass().getResource("/test-projects/jacoco-compatibility").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withEnvironment(Map.of("junit4Version", junit5Version))
+                .withEnvironment(Map.of("jacocoVersion", jacocoVersion))
                 .withArguments("dependencies", "skippyAnalyze", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
@@ -54,20 +59,19 @@ public class JUnit4CompatibilityTest {
 
         var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-            "com.example.StringUtilsTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
+         "com.example.StringUtilsTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/StringUtilsTest.class:Bv4JRjxUQd8uU9HGi53p0A==""");
+            build/classes/java/test:com/example/StringUtilsTest.class:U6eTj3290gUo4qeUMST9TQ==""");
 
         var stringUtilsTest = projectDir.toPath().resolve(Path.of("skippy", "com.example.StringUtilsTest.cov"));
         assertThat(readString(stringUtilsTest , StandardCharsets.UTF_8)).isEqualTo("""
             com.example.StringUtils
             com.example.StringUtilsTest
             """);
-
     }
 
 }

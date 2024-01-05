@@ -6,12 +6,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Skippified
-public class RightPadderTest {
+public class StringUtilsTest {
 
     @Test
     void testPadLeft() {
-        var input = TestConstants.HELLO;
-        assertEquals("hello ", RightPadder.padRight(input, 6));
+        assertEquals(" hello", StringUtils.padLeft("hello", 6));
+    }
+
+    @Test
+    void testPadRight() {
+        assertEquals("hello ", StringUtils.padRight("hello", 6));
     }
 
 }
