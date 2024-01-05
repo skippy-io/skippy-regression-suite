@@ -24,7 +24,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
-import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

@@ -18,15 +18,11 @@ package io.skippy.test;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.nio.file.Files.readString;
-import static java.util.regex.Pattern.quote;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**

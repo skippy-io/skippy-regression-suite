@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Map;
 
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

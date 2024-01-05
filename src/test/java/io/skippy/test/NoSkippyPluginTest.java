@@ -21,12 +21,6 @@ import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-
-import static java.nio.file.Files.readAllLines;
-import static java.nio.file.Files.readString;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Project with skippified tests but without Skippy plugin or skippy folder.

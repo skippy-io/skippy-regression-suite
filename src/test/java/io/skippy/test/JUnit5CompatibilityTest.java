@@ -18,7 +18,6 @@ package io.skippy.test;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

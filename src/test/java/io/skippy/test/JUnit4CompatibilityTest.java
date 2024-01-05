@@ -39,7 +39,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class JUnit4CompatibilityTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"4.10", "4.11", "4.13", "4.13.1", "4.13.2"})
+    @ValueSource(strings = {
+            "4.10",
+            "4.11",
+            "4.13",
+            "4.13.1",
+            "4.13.2"
+    })
     public void testBuild(String junit5Version) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-compatibility").toURI());
         BuildResult result = GradleRunner.create()
