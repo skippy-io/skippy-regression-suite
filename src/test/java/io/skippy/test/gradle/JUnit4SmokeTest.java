@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.skippy.test;
+package io.skippy.test.gradle;
 
+import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -29,15 +31,16 @@ import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis using a project with multiple tests SourceSets and JUnit 4 and JUnit 5.
+ * Test Impact Analysis using JUnit 4.
  *
  * @author Florian McKee
  */
-public class MultipleTestSourceSetsTest {
+public class JUnit4SmokeTest {
 
     @Test
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/multiple-test-sourcesets").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/junit4-smoketest").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
@@ -49,39 +52,30 @@ public class MultipleTestSourceSetsTest {
         var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
                 "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
-                "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
-                "com.example.SkippifiedStringUtilsTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
+                "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/intTest:com/example/SkippifiedStringUtilsTest.class:lsiQc/4vvj3hR525yYYHMg==
-            build/classes/java/intTest:com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
-            build/classes/java/intTest:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==
             build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
             build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:sGLJTZJw4beE9m2Kg6chUg==
-            build/classes/java/test:com/example/RightPadderTest.class:wAwQMlDS3xxmX/Yl5fsSdA==
+            build/classes/java/test:com/example/LeftPadderTest.class:PfiMSJHtPoujnc6hlyYayA==
+            build/classes/java/test:com/example/RightPadderTest.class:0RaVJ4PjsVSzBTC0Mgey8g==
+            build/classes/java/test:com/example/StringUtilsTest.class:rURYgK6CQqdn6cutCLdqqQ==
             build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
         var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));
-        assertThat(readString(leftPadderTestCov, StandardCharsets.UTF_8)).isEqualTo("""
+        assertThat(readString(leftPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
             com.example.LeftPadder
             com.example.LeftPadderTest
             com.example.StringUtils
             """);
 
         var rightPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.RightPadderTest.cov"));
-        assertThat(readString(rightPadderTestCov, StandardCharsets.UTF_8)).isEqualTo("""
+        assertThat(readString(rightPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
             com.example.RightPadder
             com.example.RightPadderTest
-            com.example.StringUtils
-            """);
-
-        var skippifiedStringUtilsTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.SkippifiedStringUtilsTest.cov"));
-        assertThat(readString(skippifiedStringUtilsTestCov, StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.SkippifiedStringUtilsTest
             com.example.StringUtils
             """);
     }

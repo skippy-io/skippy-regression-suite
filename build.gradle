@@ -58,5 +58,27 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags "GRADLE", "MAVEN"
+    }
+}
+
+def gradleTest = tasks.register("gradleTest", Test) {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    useJUnitPlatform {
+        includeTags "GRADLE"
+    }
+    shouldRunAfter test
+}
+
+def mavenTest = tasks.register("mavenTest", Test) {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    useJUnitPlatform {
+        includeTags "MAVEN"
+    }
+    shouldRunAfter test
 }

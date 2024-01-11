@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.skippy.test;
+package io.skippy.test.gradle;
 
+import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -31,25 +33,32 @@ import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis using multiple versions of JaCoCo
+ * Test Impact Analysis using multiple versions of Gradle
  *
  * @author Florian McKee
  */
 
-public class JacocoCompatibilityTest {
+public class GradleCompatibilityTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "0.8.7",
-            "0.8.8",
-            "0.8.10",
-            "0.8.11"
+            "7.3",
+            "7.4",
+            "7.5",
+            "7.6",
+            "8.0",
+            "8.1",
+            "8.2",
+            "8.3",
+            "8.4",
+            "8.5"
     })
-    public void testBuild(String jacocoVersion) throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/jacoco-compatibility").toURI());
+    @Tag(SkippyTestTag.GRADLE)
+    public void testBuild(String gradleVersion) throws Exception {
+        var projectDir = new File(getClass().getResource("/test-projects/gradle-compatibility").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withEnvironment(Map.of("jacocoVersion", jacocoVersion))
+                .withGradleVersion(gradleVersion)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .forwardOutput()
                 .build();

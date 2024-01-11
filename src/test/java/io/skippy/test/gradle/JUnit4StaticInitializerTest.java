@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.skippy.test;
+package io.skippy.test.gradle;
 
+import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -28,15 +30,16 @@ import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis using JUnit 5 for a test class with two test methods that invoke different classes.
+ * Test Impact Analysis using JUnit 4 and static initializers in src/test and src/main.
  *
  * @author Florian McKee
  */
-public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
+public class JUnit4StaticInitializerTest {
 
     @Test
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/junit5-multiple-test-methods-with-different-targets").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/junit4-static-initializer").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
@@ -45,11 +48,11 @@ public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
         // for troubleshooting purposes
         var output = result.getOutput();
 
-        var leftAndRightPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftAndRightPadderTest.cov"));
-        assertThat(readString(leftAndRightPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.LeftAndRightPadderTest
-            com.example.LeftPadder
-            com.example.RightPadder
+        var fooTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.FooTest.cov"));
+        assertThat(readString(fooTestCov , StandardCharsets.UTF_8)).isEqualTo("""
+            com.example.ClassUsedInFoosInitializer
+            com.example.Foo
+            com.example.FooTest
             """);
     }
 

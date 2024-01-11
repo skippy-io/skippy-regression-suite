@@ -14,43 +14,34 @@
  * limitations under the License.
  */
 
-package io.skippy.test;
+package io.skippy.test.gradle;
 
+import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-
-import static java.nio.file.Files.readString;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis without a single test.
+ * Project with skippified tests but without Skippy plugin or skippy folder.
  *
  * @author Florian McKee
  */
-public class ProjectWithoutTestsTest {
+public class NoSkippyPluginTest {
 
     @Test
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/project-without-tests").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/no-skippy-plugin").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .build();
 
         // for troubleshooting purposes
         var output = result.getOutput();
-
-        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
-        assertThat(predictionsLog.toFile().exists()).isFalse();
-
-        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
-        assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==""");
     }
 
 }

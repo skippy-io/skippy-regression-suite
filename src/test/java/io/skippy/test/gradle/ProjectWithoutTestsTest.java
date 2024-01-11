@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.skippy.test;
+package io.skippy.test.gradle;
 
+import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -28,15 +30,16 @@ import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * Test Impact Analysis using JUnit 4 for a test class with two test methods that invoke different classes.
+ * Test Impact Analysis without a single test.
  *
  * @author Florian McKee
  */
-public class JUnit4MultipleTestMethodsWithDifferentTargetsTest {
+public class ProjectWithoutTestsTest {
 
     @Test
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/junit4-multiple-test-methods-with-different-targets").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/project-without-tests").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
@@ -45,12 +48,12 @@ public class JUnit4MultipleTestMethodsWithDifferentTargetsTest {
         // for troubleshooting purposes
         var output = result.getOutput();
 
-        var leftAndRightPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftAndRightPadderTest.cov"));
-        assertThat(readString(leftAndRightPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.LeftAndRightPadderTest
-            com.example.LeftPadder
-            com.example.RightPadder
-            """);
+        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+        assertThat(predictionsLog.toFile().exists()).isFalse();
+
+        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
+            build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==""");
     }
 
 }

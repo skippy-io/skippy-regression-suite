@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.skippy.test;
+package io.skippy.test.gradle;
 
+import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -52,6 +54,7 @@ public class JUnit5CompatibilityTest {
             "5.9.0",
             "5.10.0"
     })
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild(String junit5Version) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-compatibility").toURI());
         BuildResult result = GradleRunner.create()
