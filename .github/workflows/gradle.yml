@@ -44,6 +44,4 @@ jobs:
       run: mvn -P sub-modules-only verify -DskippyAnalyze=true
 
     - name: Test Maven Analysis
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: mavenTest
+      run: ./gradlew mavenTest
