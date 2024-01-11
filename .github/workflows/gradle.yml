@@ -40,6 +40,7 @@ jobs:
         arguments: clean processTestResources
 
     - name: Test Maven Analysis
+      uses: actions/setup-java@v3
       run: |
-        mvn -f src/test/resources/test-projects -P sub-modules-only verify -DskippyAnalyze=true\
+        mvn -f src/test/resources/test-projects -P sub-modules-only verify -DskippyAnalyze=true
         mvn test
