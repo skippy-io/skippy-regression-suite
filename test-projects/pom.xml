@@ -18,7 +18,9 @@
       <id>sub-modules-only</id>
       <modules>
         <module>junit5-smoketest</module>
+        <module>junit5-no-skippy-plugin</module>
         <module>junit4-smoketest</module>
+        <module>junit4-no-skippy-plugin</module>
       </modules>
     </profile>
   </profiles>
