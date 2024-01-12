@@ -44,19 +44,19 @@ public class JUnit4SmokeTest {
 
         var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
-                "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
+            "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
+            "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
 
         var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
-            build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
-            build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:PfiMSJHtPoujnc6hlyYayA==
-            build/classes/java/test:com/example/RightPadderTest.class:0RaVJ4PjsVSzBTC0Mgey8g==
-            build/classes/java/test:com/example/StringUtilsTest.class:rURYgK6CQqdn6cutCLdqqQ==
-            build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
+            target/classes:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
+            target/classes:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
+            target/classes:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
+            target/test-classes:com/example/LeftPadderTest.class:PfiMSJHtPoujnc6hlyYayA==
+            target/test-classes:com/example/RightPadderTest.class:0RaVJ4PjsVSzBTC0Mgey8g==
+            target/test-classes:com/example/StringUtilsTest.class:rURYgK6CQqdn6cutCLdqqQ==
+            target/test-classes:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
         var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));
         assertThat(readString(leftPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""

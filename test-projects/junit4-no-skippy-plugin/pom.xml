@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.skippy</groupId>
-  <artifactId>junit4-smoketest</artifactId>
+  <artifactId>junit4-no-skippy-plugin</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -43,31 +43,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
-      </plugin>
-      <plugin>
-        <groupId>io.skippy</groupId>
-        <artifactId>skippy-maven</artifactId>
-        <version>project.skippyVersion</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>analyze</goal>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

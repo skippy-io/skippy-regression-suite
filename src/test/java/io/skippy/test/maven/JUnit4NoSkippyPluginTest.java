@@ -14,34 +14,29 @@
  * limitations under the License.
  */
 
-package io.skippy.test.gradle;
+package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.BuildResult;
-import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Project with skippified tests but without Skippy plugin or skippy folder.
+ * Project with skippified JUnit 4 tests but without Skippy plugin or skippy folder.
  *
  * @author Florian McKee
  */
-public class NoSkippyPluginTest {
+public class JUnit4NoSkippyPluginTest {
 
+    /**
+     * This test is just a reminder that the execution of this test is proof that the junit4-no-skippy-plugin
+     * build was successful. Otherwise, this test would have never been executed.
+     */
     @Test
-    @Tag(SkippyTestTag.GRADLE)
+    @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/no-skippy-plugin").toURI());
-        BuildResult result = GradleRunner.create()
-                .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
-                .build();
-
-        // for troubleshooting purposes
-        var output = result.getOutput();
+        assertTrue(true);
     }
 
 }
