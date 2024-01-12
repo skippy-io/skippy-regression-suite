@@ -38,7 +38,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class JUnit4SmokeTest {
 
     @Test
-    @Tag("GRADLE-")
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-smoketest").toURI());
         BuildResult result = GradleRunner.create()
