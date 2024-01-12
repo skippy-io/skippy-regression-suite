@@ -22,3 +22,9 @@ repositories {
 dependencies {
     testImplementation 'io.skippy:skippy-junit4:' + project.skippyVersion
 }
+
+test {
+    testLogging {
+        exceptionFormat 'FULL'
+    }
+}

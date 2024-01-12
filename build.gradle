@@ -68,7 +68,7 @@ def gradleTest = tasks.register("gradleTest", Test) {
         events "passed", "skipped", "failed"
     }
     useJUnitPlatform {
-        includeTags "GRADLE"
+        includeTags "GRADLE-"
     }
     shouldRunAfter test
 }
