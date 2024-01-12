@@ -38,7 +38,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class JUnit4SmokeTest {
 
     @Test
-    @Tag(SkippyTestTag.GRADLE)
+    @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-smoketest").toURI());
 
