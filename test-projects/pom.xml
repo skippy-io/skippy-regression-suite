@@ -18,6 +18,7 @@
       <id>sub-modules-only</id>
       <modules>
         <module>junit5-smoketest</module>
+        <module>junit4-smoketest</module>
       </modules>
     </profile>
   </profiles>
