@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
 import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
@@ -50,18 +49,27 @@ public class MultipleJUnit5ExtensionsTest {
 
         assertThat(output).contains("ExtensionThatShouldNotBeExecuted was executed");
 
-        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        var classesMd5Txt = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("classes.md5");
+
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
             build/classes/java/test:com/example/ExtensionThatShouldNotBeExecuted.class:0Zx5kZ1vwuaelNWDTvqB3g==
             build/classes/java/test:com/example/FooTest.class:1cNbXny4CIjPi+2kNqlXAg==""");
 
-        var fooTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.FooTest.cov"));
+        var fooTestCov = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("com.example.FooTest.cov");
+
         assertThat(readString(fooTestCov, StandardCharsets.UTF_8)).isEqualTo("""
             com.example.ExtensionThatShouldNotBeExecuted
             com.example.FooTest
             """);
 
-        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+        var predictionsLog = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("predictions.log");
+
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
             "com.example.FooTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
@@ -76,7 +84,10 @@ public class MultipleJUnit5ExtensionsTest {
 
         assertThat(output).doesNotContain("ExtensionThatShouldNotBeExecuted was executed");
 
-        predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+        predictionsLog = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("predictions.log");
+
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
                 "com.example.FooTest:SKIP:NO_CHANGE"
         );

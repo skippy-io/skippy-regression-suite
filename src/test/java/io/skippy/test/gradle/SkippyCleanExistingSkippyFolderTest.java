@@ -17,18 +17,12 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
-import static java.nio.file.Files.readAllLines;
-import static java.nio.file.Files.readString;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -43,14 +37,14 @@ public class SkippyCleanExistingSkippyFolderTest {
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/skippy-clean-existing-skippy-folder").toURI());
 
-        assertEquals(true, projectDir.toPath().resolve("skippy").toFile().exists());
+        assertEquals(true, projectDir.toPath().resolve(".skippy").toFile().exists());
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyClean", "--refresh-dependencies")
                 .build();
 
-        assertEquals(false, projectDir.toPath().resolve("skippy").toFile().exists());
+        assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());
     }
 
 }

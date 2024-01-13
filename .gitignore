@@ -44,3 +44,4 @@ bin/
 
 /src/test/resources/test-projects
 target
+/.skippy/

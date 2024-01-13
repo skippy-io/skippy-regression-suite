@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
 import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
@@ -39,13 +38,20 @@ public class JUnit5SmokeTest {
     @Tag(SkippyTestTag.MAVEN)
     public void testSkippyAnalyzeBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-smoketest").toURI());
-        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+
+        var predictionsLog = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("predictions.log");
+
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
          "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
             "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
         );
 
-        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        var classesMd5Txt = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("classes.md5");
+
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
             target/classes:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
             target/classes:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
@@ -55,14 +61,20 @@ public class JUnit5SmokeTest {
             target/test-classes:com/example/StringUtilsTest.class:p+N8biKVOm6BltcZkKcC/g==
             target/test-classes:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
 
-        var leftPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.LeftPadderTest.cov"));
+        var leftPadderTestCov = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("com.example.LeftPadderTest.cov");
+
         assertThat(readString(leftPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
             com.example.LeftPadder
             com.example.LeftPadderTest
             com.example.StringUtils
             """);
 
-        var rightPadderTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.RightPadderTest.cov"));
+        var rightPadderTestCov = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("com.example.RightPadderTest.cov");
+
         assertThat(readString(rightPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
             com.example.RightPadder
             com.example.RightPadderTest

@@ -17,13 +17,11 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.file.Path;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -38,15 +36,12 @@ public class TestFailureTest {
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
-        BuildResult result = GradleRunner.create()
+        GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .buildAndFail();
 
-        // for troubleshooting purposes
-        var output = result.getOutput();
-
-        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        var classesMd5Txt = projectDir.toPath().resolve(".skippy").resolve("classes.md5");
         assertThat(classesMd5Txt.toFile().exists()).isFalse();
     }
 

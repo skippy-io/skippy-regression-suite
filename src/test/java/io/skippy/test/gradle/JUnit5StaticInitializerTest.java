@@ -17,14 +17,12 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -40,15 +38,15 @@ public class JUnit5StaticInitializerTest {
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-static-initializer").toURI());
-        BuildResult result = GradleRunner.create()
+        GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .build();
 
-        // for troubleshooting purposes
-        var output = result.getOutput();
+        var fooTestCov = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("com.example.FooTest.cov");
 
-        var fooTestCov = projectDir.toPath().resolve(Path.of("skippy", "com.example.FooTest.cov"));
         assertThat(readString(fooTestCov , StandardCharsets.UTF_8)).isEqualTo("""
             com.example.ClassUsedInFooTestsInitializer
             com.example.ClassUsedInFoosInitializer

@@ -17,7 +17,6 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -35,13 +34,10 @@ public class JUnit4NoSkippyPluginTest {
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-no-skippy-plugin").toURI());
-        BuildResult result = GradleRunner.create()
+        GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("check", "--refresh-dependencies")
                 .build();
-
-        // for troubleshooting purposes
-        var output = result.getOutput();
     }
 
 }

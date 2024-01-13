@@ -17,14 +17,12 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -40,18 +38,15 @@ public class ProjectWithoutTestsTest {
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/project-without-tests").toURI());
-        BuildResult result = GradleRunner.create()
+        GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .build();
 
-        // for troubleshooting purposes
-        var output = result.getOutput();
-
-        var predictionsLog = projectDir.toPath().resolve(Path.of("skippy", "predictions.log"));
+        var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
         assertThat(predictionsLog.toFile().exists()).isFalse();
 
-        var classesMd5Txt = projectDir.toPath().resolve(Path.of("skippy", "classes.md5"));
+        var classesMd5Txt = projectDir.toPath().resolve(".skippy").resolve("classes.md5");
         assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
             build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==""");
     }
