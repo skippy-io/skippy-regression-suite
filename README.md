@@ -1,6 +1,6 @@
 # skippy-regression-suite
 
-This repo contains a regression suite of functional tests for Skippy itself. This repo is 
+This repo contains a suite of regression tests for Skippy itself. This repo is 
 - not packaged and published and
 - not meant to be used by projects that utilize Skippy.
 
@@ -14,7 +14,7 @@ Contributions are always welcome! You can either
 - submit a pull request,
 - create an issue in
   [GitHub's issue tracker](https://github.com/skippy-io/skippy-regression-suite/issues) or
-- send an email to [contact@skippy.io](mailto:contact@skippy.io).
+- email [contact@skippy.io](mailto:contact@skippy.io).
 
 I would love to hear from you.
 
