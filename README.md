@@ -13,7 +13,7 @@ functional tests in this repo.
 Contributions are always welcome! You can either
 - submit a pull request,
 - create an issue in
-  [GitHub's issue tracker](https://github.com/skippy-io/skippy-io.github.io/issues) or
+  [GitHub's issue tracker](https://github.com/skippy-io/skippy-regression-suite/issues) or
 - send an email to [contact@skippy.io](mailto:contact@skippy.io).
 
 I would love to hear from you.
