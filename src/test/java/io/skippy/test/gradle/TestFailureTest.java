@@ -25,11 +25,6 @@ import java.io.File;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-/**
- * Functional test to check that the classes.md5 file is not created when skippyAnalyze fails.
- *
- * @author Florian McKee
- */
 public class TestFailureTest {
 
     @Test
@@ -41,8 +36,8 @@ public class TestFailureTest {
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .buildAndFail();
 
-        var classesMd5Txt = projectDir.toPath().resolve(".skippy").resolve("classes.md5");
-        assertThat(classesMd5Txt.toFile().exists()).isFalse();
+        var tiaJson = projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json");
+        assertThat(tiaJson.toFile().exists()).isFalse();
     }
 
 }

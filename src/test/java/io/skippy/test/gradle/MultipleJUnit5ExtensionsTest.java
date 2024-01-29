@@ -16,6 +16,8 @@
 
 package io.skippy.test.gradle;
 
+import io.skippy.common.model.JsonProperty;
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
@@ -29,11 +31,6 @@ import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-/**
- * Test Impact Analysis using a project with multiple tests SourceSets and JUnit 4 and JUnit 5.
- *
- * @author Florian McKee
- */
 public class MultipleJUnit5ExtensionsTest {
 
     @Test
@@ -49,30 +46,25 @@ public class MultipleJUnit5ExtensionsTest {
 
         assertThat(output).contains("ExtensionThatShouldNotBeExecuted was executed");
 
-        var classesMd5Txt = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("classes.md5");
-
-        assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/test:com/example/ExtensionThatShouldNotBeExecuted.class:0Zx5kZ1vwuaelNWDTvqB3g==
-            build/classes/java/test:com/example/FooTest.class:1cNbXny4CIjPi+2kNqlXAg==""");
-
-        var fooTestCov = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("com.example.FooTest.cov");
-
-        assertThat(readString(fooTestCov, StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.ExtensionThatShouldNotBeExecuted
-            com.example.FooTest
-            """);
-
-        var predictionsLog = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("predictions.log");
-
-        assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-            "com.example.FooTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
-        );
+        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
+        assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
+            [
+                {
+                    "testClass": {
+                        "class": "com.example.FooTest"
+                    },
+                    "result": "SUCCESS",
+                    "coveredClasses": [
+                        {
+                            "class": "com.example.ExtensionThatShouldNotBeExecuted"
+                        },
+                        {
+                            "class": "com.example.FooTest"
+                        }
+                    ]
+                }
+            ]
+        """);
 
         result = GradleRunner.create()
                 .withProjectDir(projectDir)
@@ -83,15 +75,6 @@ public class MultipleJUnit5ExtensionsTest {
         output = result.getOutput();
 
         assertThat(output).doesNotContain("ExtensionThatShouldNotBeExecuted was executed");
-
-        predictionsLog = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("predictions.log");
-
-        assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.FooTest:SKIP:NO_CHANGE"
-        );
-
 
     }
 

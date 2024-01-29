@@ -16,6 +16,7 @@
 
 package io.skippy.test.gradle;
 
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
@@ -28,11 +29,6 @@ import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-/**
- * Test Impact Analysis using JUnit 4.
- *
- * @author Florian McKee
- */
 public class JUnit4SmokeTest {
 
     @Test
@@ -44,47 +40,75 @@ public class JUnit4SmokeTest {
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .build();
 
-        var predictionsLog = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("predictions.log");
-
+        var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.LeftPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST",
-                "com.example.RightPadderTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
+                "com.example.LeftPadderTest:EXECUTE:UNKNOWN_TEST",
+                "com.example.RightPadderTest:EXECUTE:UNKNOWN_TEST"
         );
 
-        var classesMd5Txt = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("classes.md5");
-
-        assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/main:com/example/LeftPadder.class:9U3+WYit7uiiNqA9jplN2A==
-            build/classes/java/main:com/example/RightPadder.class:ZT0GoiWG8Az5TevH9/JwBg==
-            build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/LeftPadderTest.class:PfiMSJHtPoujnc6hlyYayA==
-            build/classes/java/test:com/example/RightPadderTest.class:0RaVJ4PjsVSzBTC0Mgey8g==
-            build/classes/java/test:com/example/StringUtilsTest.class:rURYgK6CQqdn6cutCLdqqQ==
-            build/classes/java/test:com/example/TestConstants.class:3qNbG+sSd1S1OGe0EZ9GPA==""");
-
-        var leftPadderTestCov = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("com.example.LeftPadderTest.cov");
-
-        assertThat(readString(leftPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.LeftPadder
-            com.example.LeftPadderTest
-            com.example.StringUtils
-            """);
-
-        var rightPadderTestCov = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("com.example.RightPadderTest.cov");
-
-        assertThat(readString(rightPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.RightPadder
-            com.example.RightPadderTest
-            com.example.StringUtils
-            """);
+        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
+        assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
+            [
+                {
+                    "testClass": {
+                        "class": "com.example.LeftPadderTest",
+                        "path": "com/example/LeftPadderTest.class",
+                        "outputFolder": "build/classes/java/test",
+                        "hash": "PfiMSJHtPoujnc6hlyYayA=="
+                    },
+                    "result": "SUCCESS",
+                    "coveredClasses": [
+                        {
+                            "class": "com.example.LeftPadder",
+                            "path": "com/example/LeftPadder.class",
+                            "outputFolder": "build/classes/java/main",
+                            "hash": "9U3+WYit7uiiNqA9jplN2A=="
+                        },
+                        {
+                            "class": "com.example.LeftPadderTest",
+                            "path": "com/example/LeftPadderTest.class",
+                            "outputFolder": "build/classes/java/test",
+                            "hash": "PfiMSJHtPoujnc6hlyYayA=="
+                        },
+                        {
+                            "class": "com.example.StringUtils",
+                            "path": "com/example/StringUtils.class",
+                            "outputFolder": "build/classes/java/main",
+                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                        }
+                    ]
+                },
+                {
+                    "testClass": {
+                        "class": "com.example.RightPadderTest",
+                        "path": "com/example/RightPadderTest.class",
+                        "outputFolder": "build/classes/java/test",
+                        "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
+                    },
+                    "result": "SUCCESS",
+                    "coveredClasses": [
+                        {
+                            "class": "com.example.RightPadder",
+                            "path": "com/example/RightPadder.class",
+                            "outputFolder": "build/classes/java/main",
+                            "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
+                        },
+                        {
+                            "class": "com.example.RightPadderTest",
+                            "path": "com/example/RightPadderTest.class",
+                            "outputFolder": "build/classes/java/test",
+                            "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
+                        },
+                        {
+                            "class": "com.example.StringUtils",
+                            "path": "com/example/StringUtils.class",
+                            "outputFolder": "build/classes/java/main",
+                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                        }
+                    ]
+                }
+            ]
+        """);
     }
 
 }

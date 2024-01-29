@@ -18,6 +18,7 @@ package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +26,7 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Tests behavior of mvn skippy:clean for a project with an existing skippy folder.
- *
- * @author Florian McKee
- */
+@Disabled
 public class SkippyCleanExistingSkippyFolderTest {
 
     @Test

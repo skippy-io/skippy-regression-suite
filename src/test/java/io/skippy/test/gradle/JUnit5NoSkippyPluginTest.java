@@ -23,11 +23,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-/**
- * Project with skippified JUnit 5 tests but without Skippy plugin or skippy folder.
- *
- * @author Florian McKee
- */
 public class JUnit5NoSkippyPluginTest {
 
     @Test

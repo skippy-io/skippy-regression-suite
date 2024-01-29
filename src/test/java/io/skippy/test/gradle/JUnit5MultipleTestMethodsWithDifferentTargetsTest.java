@@ -16,6 +16,8 @@
 
 package io.skippy.test.gradle;
 
+import io.skippy.common.model.JsonProperty;
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
@@ -27,11 +29,6 @@ import java.nio.charset.StandardCharsets;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-/**
- * Test Impact Analysis using JUnit 5 for a test class with two test methods that invoke different classes.
- *
- * @author Florian McKee
- */
 public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
 
     @Test
@@ -43,15 +40,28 @@ public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .build();
 
-        var leftAndRightPadderTestCov = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("com.example.LeftAndRightPadderTest.cov");
-
-        assertThat(readString(leftAndRightPadderTestCov , StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.LeftAndRightPadderTest
-            com.example.LeftPadder
-            com.example.RightPadder
-            """);
+        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
+        assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
+            [
+                {
+                    "testClass": {
+                        "class": "com.example.LeftAndRightPadderTest"
+                    },
+                    "result": "SUCCESS",
+                    "coveredClasses": [
+                        {
+                            "class": "com.example.LeftAndRightPadderTest"
+                        },
+                        {
+                            "class": "com.example.LeftPadder"
+                        },
+                        {
+                            "class": "com.example.RightPadder"
+                        }
+                    ]
+                }
+            ]
+        """);
     }
 
 }

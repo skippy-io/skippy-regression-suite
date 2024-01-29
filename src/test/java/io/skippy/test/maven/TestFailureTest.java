@@ -17,7 +17,6 @@
 package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -27,12 +26,12 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
-public class SkippyCleanNoSkippyFolderTest {
+public class TestFailureTest {
 
     @Test
     @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/skippy-clean-no-skippy-folder").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
         assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());
     }
 

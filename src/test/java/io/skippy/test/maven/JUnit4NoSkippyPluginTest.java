@@ -22,11 +22,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Project with skippified JUnit 4 tests but without Skippy plugin or skippy folder.
- *
- * @author Florian McKee
- */
 public class JUnit4NoSkippyPluginTest {
 
     /**

@@ -16,22 +16,16 @@
 
 package io.skippy.test.gradle;
 
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
-import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-/**
- * Test Impact Analysis without a single test.
- *
- * @author Florian McKee
- */
 public class ProjectWithoutTestsTest {
 
     @Test
@@ -43,12 +37,10 @@ public class ProjectWithoutTestsTest {
                 .withArguments("skippyAnalyze", "--refresh-dependencies")
                 .build();
 
-        var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
-        assertThat(predictionsLog.toFile().exists()).isFalse();
-
-        var classesMd5Txt = projectDir.toPath().resolve(".skippy").resolve("classes.md5");
-        assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==""");
+        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
+        assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
+            []
+        """);
     }
 
 }

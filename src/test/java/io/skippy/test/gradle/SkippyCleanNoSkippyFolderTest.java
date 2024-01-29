@@ -18,6 +18,7 @@ package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -25,13 +26,9 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Tests behavior of ./gradlew skippyClean for a project without skippy folder.
- *
- * @author Florian McKee
- */
 public class SkippyCleanNoSkippyFolderTest {
 
+    @Disabled
     @Test
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {

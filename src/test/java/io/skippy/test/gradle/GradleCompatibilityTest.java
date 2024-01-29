@@ -16,6 +16,8 @@
 
 package io.skippy.test.gradle;
 
+import io.skippy.common.model.JsonProperty;
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
@@ -23,17 +25,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
-import static java.nio.file.Files.readAllLines;
-import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-/**
- * Test Impact Analysis using multiple versions of Gradle
- *
- * @author Florian McKee
- */
 
 public class GradleCompatibilityTest {
 
@@ -60,27 +53,25 @@ public class GradleCompatibilityTest {
                 .forwardOutput()
                 .build();
 
-        var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
-        assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-         "com.example.StringUtilsTest:EXECUTE:NO_COVERAGE_DATA_FOR_TEST"
-        );
-
-        var classesMd5Txt = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("classes.md5");
-
-        assertThat(readString(classesMd5Txt, StandardCharsets.UTF_8)).isEqualTo("""
-            build/classes/java/main:com/example/StringUtils.class:4VP9fWGFUJHKIBG47OXZTQ==
-            build/classes/java/test:com/example/StringUtilsTest.class:U6eTj3290gUo4qeUMST9TQ==""");
-
-        var stringUtilsTest = projectDir.toPath()
-                .resolve(".skippy")
-                .resolve("com.example.StringUtilsTest.cov");
-
-        assertThat(readString(stringUtilsTest , StandardCharsets.UTF_8)).isEqualTo("""
-            com.example.StringUtils
-            com.example.StringUtilsTest
-            """);
+        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
+        assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
+            [
+                {
+                    "testClass": {
+                        "class": "com.example.StringUtilsTest"
+                    },
+                    "result": "SUCCESS",
+                    "coveredClasses": [
+                        {
+                            "class": "com.example.StringUtils"
+                        },
+                        {
+                            "class": "com.example.StringUtilsTest"
+                        }
+                    ]
+                }
+            ]
+        """);
     }
 
 }
