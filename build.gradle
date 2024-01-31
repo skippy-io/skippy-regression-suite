@@ -1,6 +1,19 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+        classpath 'io.skippy:skippy-gradle:' + project.skippyVersion
+    }
+}
+
 plugins {
     id 'java'
 }
+
+apply plugin: io.skippy.gradle.SkippyPlugin;
 
 repositories {
     mavenLocal()
@@ -73,6 +86,7 @@ def gradleTest = tasks.register("gradleTest", Test) {
         includeTags "GRADLE"
     }
     shouldRunAfter test
+    dependsOn clean, skippyClean
 }
 
 def mavenTest = tasks.register("mavenTest", Test) {
@@ -83,4 +97,5 @@ def mavenTest = tasks.register("mavenTest", Test) {
         includeTags "MAVEN"
     }
     shouldRunAfter test
+    dependsOn clean, skippyClean
 }

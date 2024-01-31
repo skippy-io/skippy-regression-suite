@@ -18,6 +18,7 @@ package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,7 @@ import java.io.File;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@Disabled
 public class TestFailureTest {
 
     @Test

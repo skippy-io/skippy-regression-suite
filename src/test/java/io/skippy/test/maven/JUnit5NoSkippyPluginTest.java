@@ -17,13 +17,11 @@
 package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled
 public class JUnit5NoSkippyPluginTest {
 
     /**
