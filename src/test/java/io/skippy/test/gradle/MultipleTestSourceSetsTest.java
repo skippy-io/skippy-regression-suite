@@ -34,7 +34,7 @@ public class MultipleTestSourceSetsTest {
         var projectDir = new File(getClass().getResource("/test-projects/multiple-test-sourcesets").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));

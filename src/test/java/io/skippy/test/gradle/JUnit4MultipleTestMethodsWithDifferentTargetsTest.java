@@ -35,7 +35,7 @@ public class JUnit4MultipleTestMethodsWithDifferentTargetsTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-multiple-test-methods-with-different-targets").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));

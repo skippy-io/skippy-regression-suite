@@ -34,7 +34,7 @@ public class ProjectWithoutTestsTest {
         var projectDir = new File(getClass().getResource("/test-projects/project-without-tests").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));

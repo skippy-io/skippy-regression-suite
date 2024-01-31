@@ -39,7 +39,7 @@ public class MultipleJUnit5ExtensionsTest {
         var projectDir = new File(getClass().getResource("/test-projects/multiple-junit5-extensions").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .build();
 
         var output = result.getOutput();

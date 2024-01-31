@@ -35,7 +35,7 @@ public class JUnit5StaticInitializerTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-static-initializer").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));

@@ -51,7 +51,7 @@ public class JUnit5CompatibilityTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withEnvironment(Map.of("junit5Version", junit5Version))
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("skippyClean", "check", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
 

@@ -33,7 +33,7 @@ public class TestFailureTest {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
                 .buildAndFail();
 
         var tiaJson = projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json");

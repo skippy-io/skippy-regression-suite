@@ -44,7 +44,7 @@ public class JacocoCompatibilityTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withEnvironment(Map.of("jacocoVersion", jacocoVersion))
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("skippyClean", "check", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
 

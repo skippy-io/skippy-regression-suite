@@ -37,7 +37,8 @@ public class JUnit4SmokeTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-smoketest").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("check", "--refresh-dependencies")
+                .forwardOutput()
                 .build();
 
         var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");

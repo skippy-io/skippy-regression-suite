@@ -49,7 +49,7 @@ public class GradleCompatibilityTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withGradleVersion(gradleVersion)
-                .withArguments("skippyAnalyze", "--refresh-dependencies")
+                .withArguments("skippyClean", "check", "--refresh-dependencies")
                 .forwardOutput()
                 .build();
 
