@@ -27,8 +27,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-import static java.nio.file.Files.readAllLines;
-import static java.nio.file.Files.readString;
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class MultipleJUnit5ExtensionsTest {
@@ -39,7 +38,7 @@ public class MultipleJUnit5ExtensionsTest {
         var projectDir = new File(getClass().getResource("/test-projects/multiple-junit5-extensions").toURI());
         BuildResult result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .build();
 
         var output = result.getOutput();
@@ -48,27 +47,27 @@ public class MultipleJUnit5ExtensionsTest {
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.FooTest"
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.ExtensionThatShouldNotBeExecuted"
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.ExtensionThatShouldNotBeExecuted"
-                        },
-                        {
-                            "class": "com.example.FooTest"
-                        }
-                    ]
-                }
-            ]
+                    "1": {
+                        "name": "com.example.FooTest"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "1",
+                        "coveredClasses": ["0","1"]
+                    }
+                ]
+            }
         """);
 
         result = GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("check"))
                 .forwardOutput()
                 .build();
 

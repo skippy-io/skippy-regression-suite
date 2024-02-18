@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
@@ -38,7 +39,7 @@ public class SkippyCleanExistingSkippyFolderTest {
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("skippyClean", "--refresh-dependencies")
+                .withArguments(refresh("skippyClean"))
                 .build();
 
         assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());

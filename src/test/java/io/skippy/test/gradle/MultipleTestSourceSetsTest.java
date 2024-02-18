@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class MultipleTestSourceSetsTest {
@@ -34,94 +35,83 @@ public class MultipleTestSourceSetsTest {
         var projectDir = new File(getClass().getResource("/test-projects/multiple-test-sourcesets").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.LeftPadderTest",
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.LeftPadder",
+                        "path": "com/example/LeftPadder.class",
+                        "outputFolder": "build/classes/java/main",
+                        "hash": "9U3+WYit7uiiNqA9jplN2A=="
+                    },
+                    "1": {
+                        "name": "com.example.LeftPadderTest",
                         "path": "com/example/LeftPadderTest.class",
                         "outputFolder": "build/classes/java/test",
                         "hash": "sGLJTZJw4beE9m2Kg6chUg=="
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.LeftPadder",
-                            "path": "com/example/LeftPadder.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "9U3+WYit7uiiNqA9jplN2A=="
-                        },
-                        {
-                            "class": "com.example.LeftPadderTest",
-                            "path": "com/example/LeftPadderTest.class",
-                            "outputFolder": "build/classes/java/test",
-                            "hash": "sGLJTZJw4beE9m2Kg6chUg=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                },
-                {
-                    "testClass": {
-                        "class": "com.example.RightPadderTest",
+                    "2": {
+                        "name": "com.example.RightPadder",
+                        "path": "com/example/RightPadder.class",
+                        "outputFolder": "build/classes/java/main",
+                        "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
+                    },
+                    "3": {
+                        "name": "com.example.RightPadderTest",
                         "path": "com/example/RightPadderTest.class",
                         "outputFolder": "build/classes/java/test",
                         "hash": "wAwQMlDS3xxmX/Yl5fsSdA=="
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.RightPadder",
-                            "path": "com/example/RightPadder.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
-                        },
-                        {
-                            "class": "com.example.RightPadderTest",
-                            "path": "com/example/RightPadderTest.class",
-                            "outputFolder": "build/classes/java/test",
-                            "hash": "wAwQMlDS3xxmX/Yl5fsSdA=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                },
-                {
-                    "testClass": {
-                        "class": "com.example.SkippifiedStringUtilsTest",
+                    "4": {
+                        "name": "com.example.SkippifiedStringUtilsTest",
                         "path": "com/example/SkippifiedStringUtilsTest.class",
                         "outputFolder": "build/classes/java/intTest",
                         "hash": "lsiQc/4vvj3hR525yYYHMg=="
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.SkippifiedStringUtilsTest",
-                            "path": "com/example/SkippifiedStringUtilsTest.class",
-                            "outputFolder": "build/classes/java/intTest",
-                            "hash": "lsiQc/4vvj3hR525yYYHMg=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                }
-            ]
+                    "5": {
+                        "name": "com.example.StringUtils",
+                        "path": "com/example/StringUtils.class",
+                        "outputFolder": "build/classes/java/main",
+                        "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                    },
+                    "6": {
+                        "name": "com.example.StringUtilsTest",
+                        "path": "com/example/StringUtilsTest.class",
+                        "outputFolder": "build/classes/java/intTest",
+                        "hash": "p+N8biKVOm6BltcZkKcC/g=="
+                    },
+                    "7": {
+                        "name": "com.example.TestConstants",
+                        "path": "com/example/TestConstants.class",
+                        "outputFolder": "build/classes/java/intTest",
+                        "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                    },
+                    "8": {
+                        "name": "com.example.TestConstants",
+                        "path": "com/example/TestConstants.class",
+                        "outputFolder": "build/classes/java/test",
+                        "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "1",
+                        "coveredClasses": ["0","1","5"]
+                    },
+                    {
+                        "class": "3",
+                        "coveredClasses": ["2","3","5"]
+                    },
+                    {
+                        "class": "4",
+                        "coveredClasses": ["4","5"]
+                    }
+                ]
+            }
         """);
     }
 

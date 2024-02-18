@@ -16,6 +16,7 @@
 
 package io.skippy.test.maven;
 
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
@@ -25,14 +26,14 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
 public class TestFailureTest {
 
     @Test
     @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
-        assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());
+        var tia = projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json");
+        assertEquals(false, tia.toFile().exists());
     }
 
 }

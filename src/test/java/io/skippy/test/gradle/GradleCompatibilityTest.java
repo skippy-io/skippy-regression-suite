@@ -26,6 +26,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GradleCompatibilityTest {
@@ -40,8 +41,8 @@ public class GradleCompatibilityTest {
 //            "8.1",
 //            "8.2",
 //            "8.3",
-//            "8.4",
-            "8.5"
+            "8.4",
+//            "8.5"
     })
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild(String gradleVersion) throws Exception {
@@ -49,28 +50,28 @@ public class GradleCompatibilityTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withGradleVersion(gradleVersion)
-                .withArguments("skippyClean", "check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .forwardOutput()
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.StringUtilsTest"
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.StringUtils"
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.StringUtils"
-                        },
-                        {
-                            "class": "com.example.StringUtilsTest"
-                        }
-                    ]
-                }
-            ]
+                    "1": {
+                        "name": "com.example.StringUtilsTest"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "1",
+                        "coveredClasses": ["0","1"]
+                    }
+                ]
+            }
         """);
     }
 

@@ -23,6 +23,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static io.skippy.test.gradle.Tasks.refresh;
+
 public class JUnit5NoSkippyPluginTest {
 
     @Test
@@ -31,7 +33,7 @@ public class JUnit5NoSkippyPluginTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-no-skippy-plugin").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "check"))
                 .build();
     }
 

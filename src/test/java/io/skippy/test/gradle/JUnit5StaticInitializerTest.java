@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class JUnit5StaticInitializerTest {
@@ -35,33 +36,33 @@ public class JUnit5StaticInitializerTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-static-initializer").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.FooTest"
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.ClassUsedInFooTestsInitializer"
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.ClassUsedInFooTestsInitializer"
-                        },
-                        {
-                            "class": "com.example.ClassUsedInFoosInitializer"
-                        },
-                        {
-                            "class": "com.example.Foo"
-                        },
-                        {
-                            "class": "com.example.FooTest"
-                        }
-                    ]
-                }
-            ]
+                    "1": {
+                        "name": "com.example.ClassUsedInFoosInitializer"
+                    },
+                    "2": {
+                        "name": "com.example.Foo"
+                    },
+                    "3": {
+                        "name": "com.example.FooTest"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "3",
+                        "coveredClasses": ["0","1","2","3"]
+                    }
+                ]
+            }
         """);
     }
 

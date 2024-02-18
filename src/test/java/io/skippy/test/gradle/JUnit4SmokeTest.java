@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static java.nio.file.Files.readAllLines;
-import static java.nio.file.Files.readString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class JUnit4SmokeTest {
@@ -37,78 +37,74 @@ public class JUnit4SmokeTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit4-smoketest").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .forwardOutput()
                 .build();
 
         var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.LeftPadderTest:EXECUTE:UNKNOWN_TEST",
-                "com.example.RightPadderTest:EXECUTE:UNKNOWN_TEST"
+            "com.example.LeftPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST",
+            "com.example.RightPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST"
         );
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.LeftPadderTest",
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.LeftPadder",
+                        "path": "com/example/LeftPadder.class",
+                        "outputFolder": "build/classes/java/main",
+                        "hash": "9U3+WYit7uiiNqA9jplN2A=="
+                    },
+                    "1": {
+                        "name": "com.example.LeftPadderTest",
                         "path": "com/example/LeftPadderTest.class",
                         "outputFolder": "build/classes/java/test",
                         "hash": "PfiMSJHtPoujnc6hlyYayA=="
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.LeftPadder",
-                            "path": "com/example/LeftPadder.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "9U3+WYit7uiiNqA9jplN2A=="
-                        },
-                        {
-                            "class": "com.example.LeftPadderTest",
-                            "path": "com/example/LeftPadderTest.class",
-                            "outputFolder": "build/classes/java/test",
-                            "hash": "PfiMSJHtPoujnc6hlyYayA=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                },
-                {
-                    "testClass": {
-                        "class": "com.example.RightPadderTest",
+                    "2": {
+                        "name": "com.example.RightPadder",
+                        "path": "com/example/RightPadder.class",
+                        "outputFolder": "build/classes/java/main",
+                        "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
+                    },
+                    "3": {
+                        "name": "com.example.RightPadderTest",
                         "path": "com/example/RightPadderTest.class",
                         "outputFolder": "build/classes/java/test",
                         "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.RightPadder",
-                            "path": "com/example/RightPadder.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
-                        },
-                        {
-                            "class": "com.example.RightPadderTest",
-                            "path": "com/example/RightPadderTest.class",
-                            "outputFolder": "build/classes/java/test",
-                            "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "build/classes/java/main",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                }
-            ]
+                    "4": {
+                        "name": "com.example.StringUtils",
+                        "path": "com/example/StringUtils.class",
+                        "outputFolder": "build/classes/java/main",
+                        "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                    },
+                    "5": {
+                        "name": "com.example.StringUtilsTest",
+                        "path": "com/example/StringUtilsTest.class",
+                        "outputFolder": "build/classes/java/test",
+                        "hash": "rURYgK6CQqdn6cutCLdqqQ=="
+                    },
+                    "6": {
+                        "name": "com.example.TestConstants",
+                        "path": "com/example/TestConstants.class",
+                        "outputFolder": "build/classes/java/test",
+                        "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "1",
+                        "coveredClasses": ["0","1","4"]
+                    },
+                    {
+                        "class": "3",
+                        "coveredClasses": ["2","3","4"]
+                    }
+                ]
+            }
         """);
     }
 

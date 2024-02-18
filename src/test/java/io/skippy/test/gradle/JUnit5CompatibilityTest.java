@@ -27,6 +27,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.File;
 import java.util.Map;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class JUnit5CompatibilityTest {
@@ -51,28 +52,28 @@ public class JUnit5CompatibilityTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withEnvironment(Map.of("junit5Version", junit5Version))
-                .withArguments("skippyClean", "check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .forwardOutput()
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.StringUtilsTest"
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.StringUtils"
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.StringUtils"
-                        },
-                        {
-                            "class": "com.example.StringUtilsTest"
-                        }
-                    ]
-                }
-            ]
+                    "1": {
+                        "name": "com.example.StringUtilsTest"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "1",
+                        "coveredClasses": ["0","1"]
+                    }
+                ]
+            }
         """);
     }
 

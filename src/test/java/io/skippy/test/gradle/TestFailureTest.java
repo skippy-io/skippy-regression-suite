@@ -16,17 +16,18 @@
 
 package io.skippy.test.gradle;
 
+import io.skippy.common.model.JsonProperty;
+import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@Disabled
 public class TestFailureTest {
 
     @Test
@@ -35,11 +36,19 @@ public class TestFailureTest {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .buildAndFail();
 
-        var tiaJson = projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json");
-        assertThat(tiaJson.toFile().exists()).isFalse();
+        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
+        assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
+            {
+                "classes": {
+                },
+                "tests": [
+                ]
+            }
+        """);
+
     }
 
 }

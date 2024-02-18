@@ -24,9 +24,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
-import static java.nio.file.Files.readString;
+import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
@@ -37,30 +36,30 @@ public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-multiple-test-methods-with-different-targets").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments("check", "--refresh-dependencies")
+                .withArguments(refresh("clean", "skippyClean", "check"))
                 .build();
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
-            [
-                {
-                    "testClass": {
-                        "class": "com.example.LeftAndRightPadderTest"
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.LeftAndRightPadderTest"
                     },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.LeftAndRightPadderTest"
-                        },
-                        {
-                            "class": "com.example.LeftPadder"
-                        },
-                        {
-                            "class": "com.example.RightPadder"
-                        }
-                    ]
-                }
-            ]
+                    "1": {
+                        "name": "com.example.LeftPadder"
+                    },
+                    "2": {
+                        "name": "com.example.RightPadder"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": "0",
+                        "coveredClasses": ["0","1","2"]
+                    }
+                ]
+            }
         """);
     }
 

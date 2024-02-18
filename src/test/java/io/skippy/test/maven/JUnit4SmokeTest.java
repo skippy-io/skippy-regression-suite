@@ -37,72 +37,68 @@ public class JUnit4SmokeTest {
 
         var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.LeftPadderTest:EXECUTE:UNKNOWN_TEST",
-                "com.example.RightPadderTest:EXECUTE:UNKNOWN_TEST"
+                "com.example.LeftPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST",
+                "com.example.RightPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST"
         );
 
         var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
         assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
-           [
-                {
-                    "testClass": {
-                        "class": "com.example.LeftPadderTest",
-                        "path": "com/example/LeftPadderTest.class",
-                        "outputFolder": "target/test-classes",
-                        "hash": "PfiMSJHtPoujnc6hlyYayA=="
-                    },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.LeftPadder",
-                            "path": "com/example/LeftPadder.class",
-                            "outputFolder": "target/classes",
-                            "hash": "9U3+WYit7uiiNqA9jplN2A=="
-                        },
-                        {
-                            "class": "com.example.LeftPadderTest",
-                            "path": "com/example/LeftPadderTest.class",
-                            "outputFolder": "target/test-classes",
-                            "hash": "PfiMSJHtPoujnc6hlyYayA=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "target/classes",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                },
-                {
-                    "testClass": {
-                        "class": "com.example.RightPadderTest",
-                        "path": "com/example/RightPadderTest.class",
-                        "outputFolder": "target/test-classes",
-                        "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
-                    },
-                    "result": "SUCCESS",
-                    "coveredClasses": [
-                        {
-                            "class": "com.example.RightPadder",
-                            "path": "com/example/RightPadder.class",
-                            "outputFolder": "target/classes",
-                            "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
-                        },
-                        {
-                            "class": "com.example.RightPadderTest",
-                            "path": "com/example/RightPadderTest.class",
-                            "outputFolder": "target/test-classes",
-                            "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
-                        },
-                        {
-                            "class": "com.example.StringUtils",
-                            "path": "com/example/StringUtils.class",
-                            "outputFolder": "target/classes",
-                            "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
-                        }
-                    ]
-                }
-            ]
+           {
+                 "classes": {
+                             "0": {
+                                     "name": "com.example.LeftPadder",
+                                     "path": "com/example/LeftPadder.class",
+                                     "outputFolder": "target/classes",
+                                     "hash": "9U3+WYit7uiiNqA9jplN2A=="
+                             },
+                             "1": {
+                                     "name": "com.example.LeftPadderTest",
+                                     "path": "com/example/LeftPadderTest.class",
+                                     "outputFolder": "target/test-classes",
+                                     "hash": "PfiMSJHtPoujnc6hlyYayA=="
+                             },
+                             "2": {
+                                     "name": "com.example.RightPadder",
+                                     "path": "com/example/RightPadder.class",
+                                     "outputFolder": "target/classes",
+                                     "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
+                             },
+                             "3": {
+                                     "name": "com.example.RightPadderTest",
+                                     "path": "com/example/RightPadderTest.class",
+                                     "outputFolder": "target/test-classes",
+                                     "hash": "0RaVJ4PjsVSzBTC0Mgey8g=="
+                             },
+                             "4": {
+                                     "name": "com.example.StringUtils",
+                                     "path": "com/example/StringUtils.class",
+                                     "outputFolder": "target/classes",
+                                     "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                             },
+                             "5": {
+                                     "name": "com.example.StringUtilsTest",
+                                     "path": "com/example/StringUtilsTest.class",
+                                     "outputFolder": "target/test-classes",
+                                     "hash": "rURYgK6CQqdn6cutCLdqqQ=="
+                             },
+                             "6": {
+                                     "name": "com.example.TestConstants",
+                                     "path": "com/example/TestConstants.class",
+                                     "outputFolder": "target/test-classes",
+                                     "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                             }
+                     },
+                 "tests": [
+                             {
+                                     "class": "1",
+                                     "coveredClasses": ["0","1","4"]
+                             },
+                             {
+                                     "class": "3",
+                                     "coveredClasses": ["2","3","4"]
+                             }
+                 ]
+             }
         """);
     }
 

@@ -85,8 +85,6 @@ def gradleTest = tasks.register("gradleTest", Test) {
     useJUnitPlatform {
         includeTags "GRADLE"
     }
-    shouldRunAfter test
-    dependsOn clean, skippyClean
 }
 
 def mavenTest = tasks.register("mavenTest", Test) {
@@ -94,8 +92,8 @@ def mavenTest = tasks.register("mavenTest", Test) {
         events "passed", "skipped", "failed"
     }
     useJUnitPlatform {
-        includeTags "MAVEN"
+        includeTags "MAVENN"
     }
+    dependsOn skippyClean
     shouldRunAfter test
-    dependsOn clean, skippyClean
 }
