@@ -1,12 +1,12 @@
 package com.example;
 
-import io.skippy.junit5.Skippified;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Skippified
+@PredictWithSkippy
 // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LeftAndRightPadderTest {
 

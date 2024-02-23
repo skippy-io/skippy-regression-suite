@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class LeftPadderTest {
 
     @ClassRule
-    public static TestRule skippyRule = Skippy.skippify();
+    public static TestRule skippyRule = Skippy.predictWithSkippy();
 
     @Test
     public void testPadLeft() {

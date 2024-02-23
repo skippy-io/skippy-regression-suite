@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertTrue;
 public class FooTest {
 
     @ClassRule
-    public static TestRule skippyRule = Skippy.skippify();
+    public static TestRule skippyRule = Skippy.predictWithSkippy();
 
     static String field;
 
