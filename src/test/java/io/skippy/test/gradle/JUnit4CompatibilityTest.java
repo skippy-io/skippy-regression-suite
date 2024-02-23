@@ -34,11 +34,11 @@ public class JUnit4CompatibilityTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-//            "4.10",
-//            "4.11",
-//            "4.12",
-//            "4.13",
-//            "4.13.1",
+            "4.10",
+            "4.11",
+            "4.12",
+            "4.13",
+            "4.13.1",
             "4.13.2"
     })
     @Tag(SkippyTestTag.GRADLE)

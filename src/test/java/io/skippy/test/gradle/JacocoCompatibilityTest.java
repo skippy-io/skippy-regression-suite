@@ -34,9 +34,9 @@ public class JacocoCompatibilityTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-//            "0.8.7",
-//            "0.8.8",
-//            "0.8.10",
+            "0.8.7",
+            "0.8.8",
+            "0.8.10",
             "0.8.11"
     })
     @Tag(SkippyTestTag.GRADLE)

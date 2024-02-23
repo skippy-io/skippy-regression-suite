@@ -33,16 +33,16 @@ public class GradleCompatibilityTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-//            "7.3",
-//            "7.4",
-//            "7.5",
-//            "7.6",
-//            "8.0",
-//            "8.1",
-//            "8.2",
-//            "8.3",
+            "7.3",
+            "7.4",
+            "7.5",
+            "7.6",
+            "8.0",
+            "8.1",
+            "8.2",
+            "8.3",
             "8.4",
-//            "8.5"
+            "8.5"
     })
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild(String gradleVersion) throws Exception {
