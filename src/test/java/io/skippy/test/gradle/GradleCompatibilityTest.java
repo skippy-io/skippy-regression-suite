@@ -50,7 +50,7 @@ public class GradleCompatibilityTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withGradleVersion(gradleVersion)
-                .withArguments(refresh("clean", "skippyClean", "check"))
+                .withArguments(refresh("clean", "skippyClean", "check", "--stacktrace"))
                 .forwardOutput()
                 .build();
 
