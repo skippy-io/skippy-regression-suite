@@ -65,6 +65,7 @@ public class JUnit4CompatibilityTest {
                 "tests": [
                     {
                         "class": "1",
+                        "result": "PASSED",
                         "coveredClasses": ["0","1"]
                     }
                 ]

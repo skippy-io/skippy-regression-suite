@@ -59,6 +59,7 @@ public class JUnit4StaticInitializerTest {
                 "tests": [
                     {
                         "class": "3",
+                        "result": "PASSED",
                         "coveredClasses": ["1","2","3"]
                     }
                 ]

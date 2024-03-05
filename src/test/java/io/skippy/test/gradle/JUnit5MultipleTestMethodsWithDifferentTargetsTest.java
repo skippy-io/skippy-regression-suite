@@ -56,6 +56,7 @@ public class JUnit5MultipleTestMethodsWithDifferentTargetsTest {
                 "tests": [
                     {
                         "class": "0",
+                        "result": "PASSED",
                         "coveredClasses": ["0","1","2"]
                     }
                 ]

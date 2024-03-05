@@ -100,14 +100,17 @@ public class MultipleTestSourceSetsTest {
                 "tests": [
                     {
                         "class": "1",
+                        "result": "PASSED",
                         "coveredClasses": ["0","1","5"]
                     },
                     {
                         "class": "3",
+                        "result": "PASSED",
                         "coveredClasses": ["2","3","5"]
                     },
                     {
                         "class": "4",
+                        "result": "PASSED",
                         "coveredClasses": ["4","5"]
                     }
                 ]

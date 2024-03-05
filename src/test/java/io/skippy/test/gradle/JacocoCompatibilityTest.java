@@ -63,6 +63,7 @@ public class JacocoCompatibilityTest {
                 "tests": [
                     {
                         "class": "1",
+                        "result": "PASSED",
                         "coveredClasses": ["0","1"]
                     }
                 ]

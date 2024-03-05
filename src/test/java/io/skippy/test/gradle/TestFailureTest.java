@@ -43,8 +43,39 @@ public class TestFailureTest {
         assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
             {
                 "classes": {
+                    "0": {
+                        "name": "com.example.LeftPadder"
+                    },
+                    "1": {
+                        "name": "com.example.LeftPadderTest"
+                    },
+                    "2": {
+                        "name": "com.example.RightPadder"
+                    },
+                    "3": {
+                        "name": "com.example.RightPadderTest"
+                    },
+                    "4": {
+                        "name": "com.example.StringUtils"
+                    },
+                    "5": {
+                        "name": "com.example.StringUtilsTest"
+                    },
+                    "6": {
+                        "name": "com.example.TestConstants"
+                    }
                 },
                 "tests": [
+                    {
+                        "class": "1",
+                        "result": "PASSED",
+                        "coveredClasses": ["0","1","4"]
+                    },
+                    {
+                        "class": "3",
+                        "result": "FAILED",
+                        "coveredClasses": ["2","3","4"]
+                    }
                 ]
             }
         """);
