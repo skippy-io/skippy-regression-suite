@@ -81,6 +81,7 @@ test {
 def gradleTest = tasks.register("gradleTest", Test) {
     testLogging {
         events "passed", "skipped", "failed"
+        exceptionFormat 'FULL'
     }
     useJUnitPlatform {
         includeTags "GRADLE"
@@ -90,9 +91,10 @@ def gradleTest = tasks.register("gradleTest", Test) {
 def mavenTest = tasks.register("mavenTest", Test) {
     testLogging {
         events "passed", "skipped", "failed"
+        exceptionFormat 'FULL'
     }
     useJUnitPlatform {
-        includeTags "MAVENN"
+        includeTags "MAVEN"
     }
     dependsOn skippyClean
     shouldRunAfter test
