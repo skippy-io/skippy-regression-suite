@@ -17,7 +17,6 @@
 package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
-import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

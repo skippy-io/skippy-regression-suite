@@ -22,11 +22,12 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.skippy:skippy-core:' + skippyVersion
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
     testImplementation 'org.assertj:assertj-core:3.24.2'
-    testImplementation 'io.skippy:skippy-common:0.0.18-SNAPSHOT'
+    testImplementation 'org.skyscreamer:jsonassert:1.5.1'
     testImplementation gradleTestKit()
 }
 

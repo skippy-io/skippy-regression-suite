@@ -16,16 +16,17 @@
 
 package io.skippy.test.gradle;
 
-import io.skippy.common.model.JsonProperty;
-import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static io.skippy.test.gradle.Tasks.refresh;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -45,8 +46,9 @@ public class MultipleJUnit5ExtensionsTest {
 
         assertThat(output).contains("ExtensionThatShouldNotBeExecuted was executed");
 
-        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
-        assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
+        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
             {
                 "classes": {
                     "0": {
@@ -64,7 +66,7 @@ public class MultipleJUnit5ExtensionsTest {
                     }
                 ]
             }
-        """);
+        """, tia, JSONCompareMode.LENIENT);
 
         result = GradleRunner.create()
                 .withProjectDir(projectDir)

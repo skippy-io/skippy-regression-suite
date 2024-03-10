@@ -16,33 +16,35 @@
 
 package io.skippy.test.gradle;
 
-import io.skippy.common.model.JsonProperty;
-import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static io.skippy.test.gradle.Tasks.refresh;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GradleCompatibilityTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-//            "7.3",
-//            "7.4",
-//            "7.5",
-//            "7.6",
-//            "8.0",
-//            "8.1",
-//            "8.2",
-//            "8.3",
-//            "8.4",
-            "8.5"
+            "7.3",
+            "7.4",
+            "7.5",
+            "7.6",
+            "8.0",
+            "8.1",
+            "8.2",
+            "8.3",
+            "8.4",
+            "8.5",
+            "8.6"
     })
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild(String gradleVersion) throws Exception {
@@ -54,8 +56,9 @@ public class GradleCompatibilityTest {
                 .forwardOutput()
                 .build();
 
-        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
-        assertThat(tia.toJson(JsonProperty.CLASS_NAME)).isEqualToIgnoringWhitespace("""
+        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
             {
                 "classes": {
                     "0": {
@@ -73,7 +76,7 @@ public class GradleCompatibilityTest {
                     }
                 ]
             }
-        """);
+        """, tia, JSONCompareMode.LENIENT);
     }
 
 }

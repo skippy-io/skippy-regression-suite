@@ -16,16 +16,18 @@
 
 package io.skippy.test.gradle;
 
-import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static io.skippy.test.gradle.Tasks.refresh;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class MultipleTestSourceSetsTest {
 
@@ -38,63 +40,64 @@ public class MultipleTestSourceSetsTest {
                 .withArguments(refresh("clean", "skippyClean", "check"))
                 .build();
 
-        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
-        assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
+        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
             {
                 "classes": {
                     "0": {
                         "name": "com.example.LeftPadder",
                         "path": "com/example/LeftPadder.class",
                         "outputFolder": "build/classes/java/main",
-                        "hash": "9U3+WYit7uiiNqA9jplN2A=="
+                        "hash": "8E994DD8"
                     },
                     "1": {
                         "name": "com.example.LeftPadderTest",
                         "path": "com/example/LeftPadderTest.class",
                         "outputFolder": "build/classes/java/test",
-                        "hash": "RYw+9FDHHBsftKAb1pVARw=="
+                        "hash": "D6954047"
                     },
                     "2": {
                         "name": "com.example.RightPadder",
                         "path": "com/example/RightPadder.class",
                         "outputFolder": "build/classes/java/main",
-                        "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
+                        "hash": "F7F27006"
                     },
                     "3": {
                         "name": "com.example.RightPadderTest",
                         "path": "com/example/RightPadderTest.class",
                         "outputFolder": "build/classes/java/test",
-                        "hash": "x6HWVb2tUQjwgdIPbk9jKA=="
+                        "hash": "6E4F6328"
                     },
                     "4": {
                         "name": "com.example.SkippifiedStringUtilsTest",
                         "path": "com/example/SkippifiedStringUtilsTest.class",
                         "outputFolder": "build/classes/java/intTest",
-                        "hash": "lh76+AiWO6Idx0IqLulSMw=="
+                        "hash": "2EE95233"
                     },
                     "5": {
                         "name": "com.example.StringUtils",
                         "path": "com/example/StringUtils.class",
                         "outputFolder": "build/classes/java/main",
-                        "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                        "hash": "ECE5D94D"
                     },
                     "6": {
                         "name": "com.example.StringUtilsTest",
                         "path": "com/example/StringUtilsTest.class",
                         "outputFolder": "build/classes/java/intTest",
-                        "hash": "p+N8biKVOm6BltcZkKcC/g=="
+                        "hash": "90A702FE"
                     },
                     "7": {
                         "name": "com.example.TestConstants",
                         "path": "com/example/TestConstants.class",
                         "outputFolder": "build/classes/java/intTest",
-                        "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                        "hash": "119F463C"
                     },
                     "8": {
                         "name": "com.example.TestConstants",
                         "path": "com/example/TestConstants.class",
                         "outputFolder": "build/classes/java/test",
-                        "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                        "hash": "119F463C"
                     }
                 },
                 "tests": [
@@ -115,7 +118,7 @@ public class MultipleTestSourceSetsTest {
                     }
                 ]
             }
-        """);
+        """, tia, JSONCompareMode.LENIENT);
     }
 
 }

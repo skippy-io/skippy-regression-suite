@@ -41,10 +41,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.skippy</groupId>
-            <artifactId>skippy-common</artifactId>
-            <version>0.0.17-SNAPSHOT</version>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>1.5.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.skippy</groupId>
+            <artifactId>skippy-core</artifactId>
+            <version>0.0.18-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>dev.gradleplugins</groupId>

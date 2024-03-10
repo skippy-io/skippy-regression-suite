@@ -16,13 +16,15 @@
 
 package io.skippy.test.maven;
 
-import io.skippy.common.model.TestImpactAnalysis;
 import io.skippy.test.SkippyTestTag;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static java.nio.file.Files.readAllLines;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -41,51 +43,52 @@ public class JUnit4SmokeTest {
                 "com.example.RightPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST"
         );
 
-        var tia = TestImpactAnalysis.readFromFile(projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json"));
-        assertThat(tia.toJson()).isEqualToIgnoringWhitespace("""
+        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
            {
                  "classes": {
                              "0": {
                                      "name": "com.example.LeftPadder",
                                      "path": "com/example/LeftPadder.class",
                                      "outputFolder": "target/classes",
-                                     "hash": "9U3+WYit7uiiNqA9jplN2A=="
+                                     "hash": "8E994DD8"
                              },
                              "1": {
                                      "name": "com.example.LeftPadderTest",
                                      "path": "com/example/LeftPadderTest.class",
                                      "outputFolder": "target/test-classes",
-                                     "hash": "/JFb2MrcP/GGkcJdW8Lyow=="
+                                     "hash": "5BC2F2A3"
                              },
                              "2": {
                                      "name": "com.example.RightPadder",
                                      "path": "com/example/RightPadder.class",
                                      "outputFolder": "target/classes",
-                                     "hash": "ZT0GoiWG8Az5TevH9/JwBg=="
+                                     "hash": "F7F27006"
                              },
                              "3": {
                                      "name": "com.example.RightPadderTest",
                                      "path": "com/example/RightPadderTest.class",
                                      "outputFolder": "target/test-classes",
-                                     "hash": "bGlFWWCu80nFb2IVeWY3Hw=="
+                                     "hash": "7966371F"
                              },
                              "4": {
                                      "name": "com.example.StringUtils",
                                      "path": "com/example/StringUtils.class",
                                      "outputFolder": "target/classes",
-                                     "hash": "4VP9fWGFUJHKIBG47OXZTQ=="
+                                     "hash": "ECE5D94D"
                              },
                              "5": {
                                      "name": "com.example.StringUtilsTest",
                                      "path": "com/example/StringUtilsTest.class",
                                      "outputFolder": "target/test-classes",
-                                     "hash": "rURYgK6CQqdn6cutCLdqqQ=="
+                                     "hash": "08B76AA9"
                              },
                              "6": {
                                      "name": "com.example.TestConstants",
                                      "path": "com/example/TestConstants.class",
                                      "outputFolder": "target/test-classes",
-                                     "hash": "3qNbG+sSd1S1OGe0EZ9GPA=="
+                                     "hash": "119F463C"
                              }
                      },
                  "tests": [
@@ -101,7 +104,7 @@ public class JUnit4SmokeTest {
                              }
                  ]
              }
-        """);
+        """, tia, JSONCompareMode.LENIENT);
     }
 
 }
