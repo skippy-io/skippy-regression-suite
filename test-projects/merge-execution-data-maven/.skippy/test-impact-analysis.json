@@ -1,0 +1,48 @@
+{
+    "classes": {
+		"0": {
+			"name": "com.example.LeftPadder",
+			"path": "com/example/LeftPadder.class",
+			"outputFolder": "target/classes",
+			"hash": "8E994DD8"
+		},
+		"1": {
+			"name": "com.example.LeftPadderTest",
+			"path": "com/example/LeftPadderTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "2B1B85DB"
+		},
+		"2": {
+			"name": "com.example.RightPadder",
+			"path": "com/example/RightPadder.class",
+			"outputFolder": "target/classes",
+			"hash": "F7F27006"
+		},
+		"3": {
+			"name": "com.example.RightPadderTest",
+			"path": "com/example/RightPadderTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "245F22AE"
+		},
+		"4": {
+			"name": "com.example.StringUtils",
+			"path": "com/example/StringUtils.class",
+			"outputFolder": "target/classes",
+			"hash": "ECE5D94D"
+		}
+	},
+    "tests": [
+		{
+			"class": "1",
+			"result": "PASSED",
+			"coveredClasses": ["0","1","4"],
+			"executionId": "056D7A6F17346A97BFF0986A806D39A0"
+		},
+		{
+			"class": "3",
+			"result": "PASSED",
+			"coveredClasses": ["2","3","4"],
+			"executionId": "0E198FFE5D5DE77BDD30D47CAF58E6C8"
+		}
+    ]
+}

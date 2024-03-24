@@ -13,9 +13,10 @@ mvn -f $baseDir/junit4-no-skippy-plugin               verify          --no-trans
 mvn -f $baseDir/junit4-smoketest                      verify          --no-transfer-progress
 mvn -f $baseDir/junit5-no-skippy-plugin               verify          --no-transfer-progress
 mvn -f $baseDir/junit5-smoketest                      verify          --no-transfer-progress
+
 #mvn -f $baseDir/skippy-clean-existing-skippy-folder   skippy:clean    --no-transfer-progress
 #mvn -f $baseDir/skippy-clean-no-skippy-folder         skippy:clean    --no-transfer-progress
-mvn -f $baseDir/merge-execution-data                   verify          --no-transfer-progress
+mvn -f $baseDir/merge-execution-data-maven            verify          --no-transfer-progress
 mvn -f $baseDir/save-execution-data                   verify          --no-transfer-progress
 mvn -f $baseDir/test-failure                          verify          --no-transfer-progress
 

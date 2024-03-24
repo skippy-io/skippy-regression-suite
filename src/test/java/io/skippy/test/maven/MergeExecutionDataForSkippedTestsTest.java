@@ -32,7 +32,7 @@ public class MergeExecutionDataForSkippedTestsTest {
     @Test
     @Tag(SkippyTestTag.MAVEN)
     public void testSkippyAnalyzeBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/merge-execution-data").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/merge-execution-data-maven").toURI());
 
         var coveredClasses = parseMergedExecutionDataFiles(projectDir.toPath().resolve("target/skippy.exec"));
 

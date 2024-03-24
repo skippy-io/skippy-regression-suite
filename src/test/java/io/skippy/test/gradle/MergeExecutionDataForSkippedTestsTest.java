@@ -35,7 +35,7 @@ public class MergeExecutionDataForSkippedTestsTest {
     @Test
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/merge-execution-data").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/merge-execution-data-gradle").toURI());
 
         var build = GradleRunner.create()
                 .withProjectDir(projectDir)
