@@ -3,31 +3,31 @@
 		"0": {
 			"name": "com.example.LeftPadder",
 			"path": "com/example/LeftPadder.class",
-			"outputFolder": "target/classes",
+			"outputFolder": "build/classes/java/main",
 			"hash": "8E994DD8"
 		},
 		"1": {
 			"name": "com.example.LeftPadderTest",
 			"path": "com/example/LeftPadderTest.class",
-			"outputFolder": "target/test-classes",
+			"outputFolder": "build/classes/java/test",
 			"hash": "2B1B85DB"
 		},
 		"2": {
 			"name": "com.example.RightPadder",
 			"path": "com/example/RightPadder.class",
-			"outputFolder": "target/classes",
+			"outputFolder": "build/classes/java/main",
 			"hash": "F7F27006"
 		},
 		"3": {
 			"name": "com.example.RightPadderTest",
 			"path": "com/example/RightPadderTest.class",
-			"outputFolder": "target/test-classes",
+			"outputFolder": "build/classes/java/test",
 			"hash": "245F22AE"
 		},
 		"4": {
 			"name": "com.example.StringUtils",
 			"path": "com/example/StringUtils.class",
-			"outputFolder": "target/classes",
+			"outputFolder": "build/classes/java/main",
 			"hash": "ECE5D94D"
 		}
 	},
@@ -36,13 +36,13 @@
 			"class": "1",
 			"result": "PASSED",
 			"coveredClasses": ["0","1","4"],
-			"executionId": "A2A3E41BD7A0B5285541F03AA20FAB60"
+			"executionId": "056D7A6F17346A97BFF0986A806D39A0"
 		},
 		{
 			"class": "3",
 			"result": "PASSED",
 			"coveredClasses": ["2","3","4"],
-			"executionId": "10CC77D954C9DD42B9C7A8AF45DDCC5B"
+			"executionId": "0E198FFE5D5DE77BDD30D47CAF58E6C8"
 		}
     ]
 }
