@@ -69,14 +69,14 @@ public class TestFailureTest {
                 },
                 "tests": [
                     {
-                        "class": "1",
+                        "class": 1,
                         "result": "PASSED",
-                        "coveredClasses": ["0","1","4"]
+                        "coveredClasses": [0,1,4]
                     },
                     {
-                        "class": "3",
+                        "class": 3,
                         "result": "FAILED",
-                        "coveredClasses": ["2","3","4"]
+                        "coveredClasses": [2,3,4]
                     }
                 ]
             }

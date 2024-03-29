@@ -33,15 +33,15 @@
 	},
     "tests": [
 		{
-			"class": "1",
+			"class": 1,
 			"result": "PASSED",
-			"coveredClasses": ["0","1","4"],
+			"coveredClasses": [0,1,4],
 			"executionId": "056D7A6F17346A97BFF0986A806D39A0"
 		},
 		{
-			"class": "3",
+			"class": 3,
 			"result": "PASSED",
-			"coveredClasses": ["2","3","4"],
+			"coveredClasses": [2,3,4],
 			"executionId": "0E198FFE5D5DE77BDD30D47CAF58E6C8"
 		}
     ]
