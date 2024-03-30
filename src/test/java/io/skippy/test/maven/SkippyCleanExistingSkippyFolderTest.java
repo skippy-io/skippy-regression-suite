@@ -17,7 +17,6 @@
 package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,6 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
 public class SkippyCleanExistingSkippyFolderTest {
 
     @Test

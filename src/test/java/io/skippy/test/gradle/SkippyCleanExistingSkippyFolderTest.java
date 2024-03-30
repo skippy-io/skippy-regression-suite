@@ -18,7 +18,6 @@ package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +26,6 @@ import java.io.File;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
 public class SkippyCleanExistingSkippyFolderTest {
 
     @Test
