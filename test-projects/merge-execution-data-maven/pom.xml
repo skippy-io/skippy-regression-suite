@@ -49,7 +49,7 @@
         <artifactId>skippy-maven</artifactId>
         <version>project.skippyVersion</version>
         <configuration>
-          <saveExecutionData>true</saveExecutionData>
+          <coverageForSkippedTests>true</coverageForSkippedTests>
         </configuration>
         <executions>
           <execution>

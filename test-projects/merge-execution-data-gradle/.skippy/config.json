@@ -1,3 +1,4 @@
 {
-    "saveExecutionData": "true"
+    "coverageForSkippedTests": "true",
+    "repositoryClass": "io.skippy.core.DefaultRepositoryExtension"
 }

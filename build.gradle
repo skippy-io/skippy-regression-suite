@@ -13,8 +13,6 @@ plugins {
     id 'java'
 }
 
-apply plugin: io.skippy.gradle.SkippyPlugin;
-
 repositories {
     mavenLocal()
     mavenCentral()

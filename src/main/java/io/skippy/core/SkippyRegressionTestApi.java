@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.nio.file.Files.*;
 import static java.nio.file.Files.delete;
@@ -30,8 +31,8 @@ public class SkippyRegressionTestApi {
     }
 
     public static Map<String, List<String>> parseJacocoExecutionDataFiles(Path projectDir, Path buildDir) {
-        var skippyRepo = SkippyRepository.getInstance(new SkippyConfiguration(true), projectDir, buildDir);
-        var testImpactAnalysis = skippyRepo.readTestImpactAnalysis().get();
+        var skippyRepo = SkippyRepository.getInstance(new SkippyConfiguration(true, Optional.empty()), projectDir, buildDir);
+        var testImpactAnalysis = skippyRepo.readLatestTestImpactAnalysis();
         var result = new HashMap<String, List<String>>();
         for (var analyzedTest : testImpactAnalysis.getAnalyzedTests()) {
             var testClass = testImpactAnalysis.getClassFileContainer().getById(analyzedTest.getTestClassId());

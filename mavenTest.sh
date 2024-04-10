@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ./gradlew clean
+./gradlew :test-projects:custom-repository:skippyClean
 ./gradlew :test-projects:junit4-smoketest:skippyClean
 ./gradlew :test-projects:junit5-smoketest:skippyClean
 ./gradlew :test-projects:save-execution-data:skippyClean
@@ -9,6 +10,7 @@
 
 baseDir=src/test/resources/test-projects
 
+mvn -f $baseDir/custom-repository                     verify          --no-transfer-progress
 mvn -f $baseDir/junit4-no-skippy-plugin               verify          --no-transfer-progress
 mvn -f $baseDir/junit4-smoketest                      verify          --no-transfer-progress
 mvn -f $baseDir/junit5-no-skippy-plugin               verify          --no-transfer-progress

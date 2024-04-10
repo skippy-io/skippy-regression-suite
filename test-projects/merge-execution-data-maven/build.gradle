@@ -16,7 +16,7 @@ plugins {
 apply plugin: io.skippy.gradle.SkippyPlugin;
 
 skippy {
-    saveExecutionData = true
+    coverageForSkippedTests = true
 }
 
 repositories {

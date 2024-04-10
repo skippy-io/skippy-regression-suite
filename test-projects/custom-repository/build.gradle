@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'io.skippy:skippy-gradle:' + project.skippyVersion
+        classpath 'io.skippy:skippy-repository-regression-suite:' + project.skippyVersion
     }
 }
 
@@ -15,8 +16,9 @@ plugins {
 
 apply plugin: io.skippy.gradle.SkippyPlugin;
 
+
 skippy {
-    coverageForSkippedTests = true
+//     repository = 'io.skippy.extension.RegressionSuiteRepositoryExtension'
 }
 
 repositories {
@@ -27,6 +29,7 @@ repositories {
 
 dependencies {
     testImplementation 'io.skippy:skippy-junit5:' + project.skippyVersion
+    testImplementation 'io.skippy:skippy-repository-regression-suite:' + project.skippyVersion
 }
 
 test {

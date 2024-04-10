@@ -17,13 +17,13 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static io.skippy.core.SkippyRegressionTestApi.parseJacocoExecutionDataFiles;
 import static io.skippy.core.SkippyRegressionTestApi.parseMergedExecutionDataFiles;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static java.util.Arrays.asList;

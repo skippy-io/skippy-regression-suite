@@ -41,8 +41,8 @@ public class JUnit5SmokeTest {
                 .resolve("predictions.log");
 
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-            "com.example.LeftPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST",
-            "com.example.RightPadderTest,EXECUTE,NO_DATA_FOUND_FOR_TEST"
+            "com.example.LeftPadderTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
+            "com.example.RightPadderTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND"
         );
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
