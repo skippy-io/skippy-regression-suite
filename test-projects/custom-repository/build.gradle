@@ -5,8 +5,8 @@ buildscript {
         maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
-        classpath 'io.skippy:skippy-gradle:' + project.skippyVersion
-        classpath 'io.skippy:skippy-repository-regression-suite:' + project.skippyVersion
+        classpath 'io.skippy:skippy-gradle:0.0.19-SNAPSHOT'
+        classpath 'io.skippy:skippy-repository-regression-suite:0.0.19-SNAPSHOT'
     }
 }
 
@@ -14,11 +14,11 @@ plugins {
     id 'java'
 }
 
-apply plugin: io.skippy.gradle.SkippyPlugin;
-
+apply plugin: io.skippy.gradle.SkippyPlugin
 
 skippy {
-//     repository = 'io.skippy.extension.RegressionSuiteRepositoryExtension'
+    coverageForSkippedTests = true
+    repository = 'io.skippy.extension.RegressionSuiteRepositoryExtension'
 }
 
 repositories {
@@ -28,14 +28,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'io.skippy:skippy-junit5:' + project.skippyVersion
-    testImplementation 'io.skippy:skippy-repository-regression-suite:' + project.skippyVersion
+    testImplementation 'io.skippy:skippy-junit5:0.0.19-SNAPSHOT'
+    testImplementation 'io.skippy:skippy-repository-regression-suite:0.0.19-SNAPSHOT'
 }
 
 test {
     testLogging {
         events "passed", "skipped", "failed"
-        showStandardStreams true
+        exceptionFormat 'FULL'
     }
     useJUnitPlatform()
 }

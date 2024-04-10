@@ -50,6 +50,7 @@
         <version>project.skippyVersion</version>
         <configuration>
           <coverageForSkippedTests>true</coverageForSkippedTests>
+          <repository>io.skippy.extension.RegressionSuiteRepositoryExtension</repository>
         </configuration>
         <executions>
           <execution>
