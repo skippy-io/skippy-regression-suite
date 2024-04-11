@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.skippy</groupId>
-  <artifactId>junit4-smoketest</artifactId>
+  <artifactId>custom-repository</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -18,6 +18,12 @@
     <dependency>
       <groupId>io.skippy</groupId>
       <artifactId>skippy-junit5</artifactId>
+      <version>project.skippyVersion</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.skippy</groupId>
+      <artifactId>skippy-repository-regression-suite</artifactId>
       <version>project.skippyVersion</version>
       <scope>test</scope>
     </dependency>
@@ -60,6 +66,13 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>io.skippy</groupId>
+            <artifactId>skippy-repository-regression-suite</artifactId>
+            <version>project.skippyVersion</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>

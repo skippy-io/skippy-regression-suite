@@ -10,7 +10,12 @@
 
 baseDir=src/test/resources/test-projects
 
-mvn -f $baseDir/custom-repository                     skippy:clean verify --no-transfer-progress
+rm -rf $baseDir/custom-repository/.skippy
+rm -rf $baseDir/junit4-smoketest/.skippy
+rm -rf $baseDir/save-execution-data/.skippy
+rm -rf $baseDir/test-failure/.skippy
+
+mvn -f $baseDir/custom-repository                     verify              --no-transfer-progress
 mvn -f $baseDir/junit4-no-skippy-plugin               verify              --no-transfer-progress
 mvn -f $baseDir/junit4-smoketest                      verify              --no-transfer-progress
 mvn -f $baseDir/junit5-no-skippy-plugin               verify              --no-transfer-progress
