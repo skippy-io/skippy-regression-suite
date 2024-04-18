@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'io.skippy:skippy-gradle:' + project.skippyVersion
-        classpath 'io.skippy:skippy-repository-regression-suite:0.0.19-SNAPSHOT'
+        classpath 'io.skippy:skippy-repository-regression-suite:'  + project.skippyVersion
     }
 }
 
