@@ -39,8 +39,7 @@ public class GradleConfigurationCacheTest {
         var projectDir = new File(getClass().getResource("/test-projects/gradle-compatibility").toURI());
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments(refresh("clean", "skippyClean", "check", "--stacktrace", "--configuration-cache"))
-                .forwardOutput()
+                .withArguments(refresh("clean", "skippyClean", "check", "--configuration-cache"))
                 .build();
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
@@ -64,6 +63,59 @@ public class GradleConfigurationCacheTest {
                 ]
             }
         """, tia, JSONCompareMode.LENIENT);
+    }
+
+    @Test
+    @Tag(SkippyTestTag.GRADLE)
+    public void testTestFailure() throws Exception {
+        var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
+        GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withArguments(refresh("clean", "skippyClean", "check", "--configuration-cache"))
+                .buildAndFail();
+
+        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.LeftPadder"
+                    },
+                    "1": {
+                        "name": "com.example.LeftPadderTest"
+                    },
+                    "2": {
+                        "name": "com.example.RightPadder"
+                    },
+                    "3": {
+                        "name": "com.example.RightPadderTest"
+                    },
+                    "4": {
+                        "name": "com.example.StringUtils"
+                    },
+                    "5": {
+                        "name": "com.example.StringUtilsTest"
+                    },
+                    "6": {
+                        "name": "com.example.TestConstants"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": 1,
+                        "result": "PASSED",
+                        "coveredClasses": [0,1,4]
+                    },
+                    {
+                        "class": 3,
+                        "result": "FAILED",
+                        "coveredClasses": [2,3,4]
+                    }
+                ]
+            }
+        """, tia, JSONCompareMode.LENIENT);
+
     }
 
 }
