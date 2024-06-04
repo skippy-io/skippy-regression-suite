@@ -26,8 +26,5 @@ dependencies {
 }
 
 test {
-    onlyIf {
-        rootProject.name != 'skippy-functional-tests' // this is required, otherwise the root build will break
-    }
     useJUnitPlatform()
 }
