@@ -18,62 +18,40 @@ package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
+import static io.skippy.core.SkippyRegressionTestApi.deleteSkippyFolder;
 import static io.skippy.test.gradle.Tasks.refresh;
+import static java.util.Arrays.asList;
 
-@Disabled
-public class GradleConfigurationCacheTest {
+public class GradleCompatibilityTestFailureConfigurationCacheTest {
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("io.skippy.test.gradle.GradleVersions#getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled")
     @Tag(SkippyTestTag.GRADLE)
-    public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/gradle-compatibility").toURI());
-        GradleRunner.create()
-                .withProjectDir(projectDir)
-                .withArguments(refresh("clean", "skippyClean", "check", "--configuration-cache"))
-                .build();
-
-        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
-
-        JSONAssert.assertEquals("""
-            {
-                "classes": {
-                    "0": {
-                        "name": "com.example.StringUtils"
-                    },
-                    "1": {
-                        "name": "com.example.StringUtilsTest"
-                    }
-                },
-                "tests": [
-                    {
-                        "class": 1,
-                        "result": "PASSED",
-                        "coveredClasses": [0,1]
-                    }
-                ]
-            }
-        """, tia, JSONCompareMode.LENIENT);
-    }
-
-    @Test
-    @Tag(SkippyTestTag.GRADLE)
-    public void testTestFailure() throws Exception {
+    public void testBuild(String gradleVersion, boolean configurationCacheEnabled) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
+
+        deleteSkippyFolder(projectDir.toPath().resolve(".skippy"));
+
+        var arguments = new ArrayList<>(asList("clean", "skippyClean", "check", "--stacktrace"));
+        if (configurationCacheEnabled) {
+            arguments.add("--configuration-cache");
+        }
+
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments(refresh("clean", "skippyClean", "check", "--configuration-cache"))
+                .withGradleVersion(gradleVersion)
+                .withArguments(refresh(arguments))
                 .buildAndFail();
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);

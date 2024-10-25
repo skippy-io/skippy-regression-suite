@@ -20,6 +20,7 @@ import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -27,33 +28,31 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
+import static io.skippy.core.SkippyRegressionTestApi.deleteSkippyFolder;
 import static io.skippy.test.gradle.Tasks.refresh;
+import static java.util.Arrays.asList;
 
 public class GradleCompatibilityTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "7.3",
-            "7.4",
-            "7.5",
-            "7.6",
-            "8.0",
-            "8.1",
-            "8.2",
-            "8.3",
-            "8.4",
-            "8.5",
-            "8.6"
-    })
+    @MethodSource("io.skippy.test.gradle.GradleVersions#getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled")
     @Tag(SkippyTestTag.GRADLE)
-    public void testBuild(String gradleVersion) throws Exception {
+    public void testBuild(String gradleVersion, boolean configurationCacheEnabled) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/gradle-compatibility").toURI());
+
+        deleteSkippyFolder(projectDir.toPath().resolve(".skippy"));
+
+        var arguments = new ArrayList<>(asList("clean", "skippyClean", "check", "--stacktrace"));
+        if (configurationCacheEnabled) {
+            arguments.add("--configuration-cache");
+        }
+
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withGradleVersion(gradleVersion)
-                .withArguments(refresh("clean", "skippyClean", "check", "--stacktrace"))
-                .forwardOutput()
+                .withArguments(refresh(arguments))
                 .build();
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
@@ -78,5 +77,6 @@ public class GradleCompatibilityTest {
             }
         """, tia, JSONCompareMode.LENIENT);
     }
+
 
 }
