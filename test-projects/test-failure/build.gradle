@@ -26,8 +26,8 @@ dependencies {
 }
 
 test {
-    onlyIf {
-        rootProject.name != 'skippy-functional-tests' // this is required, otherwise the root build will break
-    }
+    // this is required, otherwise the root build will break
+    // the flag will be set to true by the processBuildGradle task
+    onlyIf { false }
     useJUnitPlatform()
 }
