@@ -33,7 +33,7 @@ import static io.skippy.core.SkippyRegressionTestApi.deleteSkippyFolder;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static java.util.Arrays.asList;
 
-public class GradleCompatibilityTestFailureConfigurationCacheTest {
+public class GradleCompatibilityTestFailureTest {
 
     @ParameterizedTest
     @MethodSource("io.skippy.test.gradle.GradleVersions#getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled")
