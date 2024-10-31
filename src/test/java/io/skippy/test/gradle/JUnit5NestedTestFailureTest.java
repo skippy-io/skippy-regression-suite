@@ -44,8 +44,7 @@ public class JUnit5NestedTestFailureTest {
 
         var testFailuresTxt = projectDir.toPath().resolve(".skippy").resolve("failed-tests.txt");
         assertThat(readAllLines(testFailuresTxt, StandardCharsets.UTF_8).toArray()).containsOnly(
-                "com.example.RootTest$NestedTest",
-                "com.example.RootTest"
+                "com.example.RootTest$NestedTest"
         );
 
         GradleRunner.create()
@@ -58,7 +57,7 @@ public class JUnit5NestedTestFailureTest {
                 .resolve("predictions.log");
 
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.RootTest,EXECUTE,TEST_FAILED_PREVIOUSLY",
+                "com.example.RootTest,EXECUTE,COVERED_TEST_FAILED_PREVIOUSLY,com.example.RootTest$NestedTest",
                 "com.example.RootTest$NestedTest,EXECUTE,TEST_FAILED_PREVIOUSLY"
         );
 
