@@ -67,7 +67,7 @@ public class JacocoCompatibilityTest {
                 "tests": [
                     {
                         "class": 1,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [0,1]
                     }
                 ]

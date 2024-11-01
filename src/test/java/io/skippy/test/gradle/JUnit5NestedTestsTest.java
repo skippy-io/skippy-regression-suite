@@ -54,7 +54,7 @@ public class JUnit5NestedTestsTest {
 
         JSONAssert.assertEquals("""
             {
-                "id": "F87679D196B903DFE24335295E13DEED",
+                "id": "1C32725820E02BF7BC21749F0991E741",
                 "classes": {
                     "0": {
                         "name": "com.example.ClassA",
@@ -108,22 +108,22 @@ public class JUnit5NestedTestsTest {
                 "tests": [
                     {
                         "class": 4,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [0,1,2,3,4,5,6,7]
                     },
                     {
                         "class": 5,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [3,4,5]
                     },
                     {
                         "class": 6,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [1,2,4,6,7]
                     },
                     {
                         "class": 7,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [2,4,6,7]
                     }
                 ]

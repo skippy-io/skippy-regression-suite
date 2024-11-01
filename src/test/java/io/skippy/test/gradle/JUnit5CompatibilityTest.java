@@ -72,7 +72,7 @@ public class JUnit5CompatibilityTest {
                 "tests": [
                     {
                         "class": 1,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [0,1]
                     }
                 ]
