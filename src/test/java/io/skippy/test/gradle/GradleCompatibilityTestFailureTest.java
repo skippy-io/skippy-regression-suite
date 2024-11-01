@@ -84,12 +84,12 @@ public class GradleCompatibilityTestFailureTest {
                 "tests": [
                     {
                         "class": 1,
-                        "result": "PASSED",
+                        "tags": ["PASSED"],
                         "coveredClasses": [0,1,4]
                     },
                     {
                         "class": 3,
-                        "result": "FAILED",
+                        "tags": ["FAILED"],
                         "coveredClasses": [2,3,4]
                     }
                 ]

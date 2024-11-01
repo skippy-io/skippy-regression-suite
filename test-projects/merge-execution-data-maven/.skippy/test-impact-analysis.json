@@ -1,5 +1,5 @@
 {
-    "id": "ABF34F627A46556BE67FB55B6E504A30",
+    "id": "D15F11E09CC95A0B5CF25121E298AE53",
     "classes": {
 		"0": {
 			"name": "com.example.LeftPadder",
@@ -35,13 +35,13 @@
     "tests": [
 		{
 			"class": 1,
-			"result": "PASSED",
+			"tags": ["PASSED"],
 			"coveredClasses": [0,1,4],
 			"executionId": "BB30AAC28F561485DA50077608E01EC3"
 		},
 		{
 			"class": 3,
-			"result": "PASSED",
+			"tags": ["PASSED"],
 			"coveredClasses": [2,3,4],
 			"executionId": "A28FF0B13BADDBE5598B2AC084E205D8"
 		}

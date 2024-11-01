@@ -41,6 +41,7 @@ public class MergeExecutionDataForSkippedTestsTest {
                 .withProjectDir(projectDir)
                 .withArguments(refresh("test", "--rerun"))
                 .forwardOutput()
+                .withDebug(true)
                 .build();
 
         var output = build.getOutput();
