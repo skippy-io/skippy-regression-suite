@@ -42,9 +42,9 @@ public class JUnit5NestedTestFailureTest {
                 .withArguments(refresh("clean", "skippyClean", "check"))
                 .buildAndFail();
 
-        var testFailuresTxt = projectDir.toPath().resolve(".skippy").resolve("failed-tests.txt");
+        var testFailuresTxt = projectDir.toPath().resolve(".skippy").resolve("tags.txt");
         assertThat(readAllLines(testFailuresTxt, StandardCharsets.UTF_8).toArray()).containsOnly(
-                "com.example.RootTest$NestedTest"
+                "com.example.RootTest$NestedTest=FAILED"
         );
 
         GradleRunner.create()
