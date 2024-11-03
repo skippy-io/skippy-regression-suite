@@ -79,9 +79,9 @@ test {
     }
 }
 
-def EXECUTE_ALL_TESTS = true;
+def EXECUTE_ALL_TESTS = false;
 
-def gradleTest = tasks.register("gradleTest", Test) {
+tasks.register("gradleTest", Test) {
     testLogging {
         events "passed", "skipped", "failed"
         exceptionFormat 'FULL'

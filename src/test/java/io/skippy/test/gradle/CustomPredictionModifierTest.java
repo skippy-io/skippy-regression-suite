@@ -41,7 +41,7 @@ public class CustomPredictionModifierTest {
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments(refresh("test"))
+                .withArguments(refresh("test", "--rerun"))
                 .build();
 
         var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
