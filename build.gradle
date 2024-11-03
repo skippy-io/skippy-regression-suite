@@ -79,7 +79,7 @@ test {
     }
 }
 
-def EXECUTE_ALL_TESTS = false;
+def EXECUTE_ALL_TESTS = true;
 
 def gradleTest = tasks.register("gradleTest", Test) {
     testLogging {
