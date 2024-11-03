@@ -57,7 +57,7 @@ public class JUnit5NestedTestFailureTest {
                 .resolve("predictions.log");
 
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.RootTest,EXECUTE,COVERED_TEST_FAILED_PREVIOUSLY,com.example.RootTest$NestedTest",
+                "com.example.RootTest,EXECUTE,COVERED_TEST_TAGGED_AS_FAILED,\"covered test: com.example.RootTest$NestedTest\"",
                 "com.example.RootTest$NestedTest,EXECUTE,TEST_FAILED_PREVIOUSLY"
         );
 
