@@ -44,7 +44,8 @@ public class SkippyCleanNoSkippyFolderTest {
                 .withArguments(refresh("skippyClean"))
                 .build();
 
-        assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());
+        assertEquals(true, projectDir.toPath().resolve(".skippy").toFile().exists());
+        assertEquals(true, projectDir.toPath().resolve(".skippy").resolve("config.json").toFile().exists());
     }
 
 }

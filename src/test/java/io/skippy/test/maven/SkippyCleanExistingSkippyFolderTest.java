@@ -30,7 +30,13 @@ public class SkippyCleanExistingSkippyFolderTest {
     @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/skippy-clean-existing-skippy-folder").toURI());
-        assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());
+
+        assertEquals(true, projectDir.toPath().resolve(".skippy").toFile().exists());
+        assertEquals(true, projectDir.toPath().resolve(".skippy").resolve("config.json").toFile().exists());
+        assertEquals(false, projectDir.toPath().resolve(".skippy").resolve("LATEST").toFile().exists());
+        assertEquals(false, projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json").toFile().exists());
+
+
     }
 
 }

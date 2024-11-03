@@ -23,7 +23,7 @@
     </dependency>
     <dependency>
       <groupId>io.skippy</groupId>
-      <artifactId>skippy-repository-regression-suite</artifactId>
+      <artifactId>skippy-prediction-modifier-regression-suite</artifactId>
       <version>project.skippyVersion</version>
       <scope>test</scope>
     </dependency>
@@ -55,8 +55,7 @@
         <artifactId>skippy-maven</artifactId>
         <version>project.skippyVersion</version>
         <configuration>
-          <coverageForSkippedTests>true</coverageForSkippedTests>
-          <repository>io.skippy.extension.RegressionSuiteRepositoryExtension</repository>
+          <predictionModifier>io.skippy.extension.RegressionSuitePredictionModifier</predictionModifier>
         </configuration>
         <executions>
           <execution>
