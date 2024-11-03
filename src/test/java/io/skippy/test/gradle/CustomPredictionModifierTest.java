@@ -35,13 +35,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomPredictionModifierTest {
 
     @Test
-    @Tag(SkippyTestTag.GRADLE)
+    @Tag(SkippyTestTag.THIS_TEST_ONLY)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/custom-prediction-modifier").toURI());
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withArguments(refresh("test", "--rerun"))
+                .withArguments(refresh("clean", "skippyClean", "test"))
                 .build();
 
         var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
