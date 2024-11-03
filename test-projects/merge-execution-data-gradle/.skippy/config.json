@@ -1,4 +1,5 @@
 {
     "coverageForSkippedTests": "true",
-    "repositoryClass": "io.skippy.core.DefaultRepositoryExtension"
+    "repositoryExtension": "io.skippy.core.DefaultRepositoryExtension",
+    "predictionModifier": "io.skippy.core.DefaultPredictionModifier"
 }

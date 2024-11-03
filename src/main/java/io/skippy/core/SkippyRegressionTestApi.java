@@ -31,7 +31,7 @@ public class SkippyRegressionTestApi {
     }
 
     public static Map<String, List<String>> parseJacocoExecutionDataFiles(Path projectDir, Path buildDir) {
-        var skippyRepo = SkippyRepository.getInstance(new SkippyConfiguration(true, Optional.empty()), projectDir, buildDir);
+        var skippyRepo = SkippyRepository.getInstance(new SkippyConfiguration(true, Optional.empty(), Optional.empty()), projectDir, buildDir);
         var testImpactAnalysis = skippyRepo.readLatestTestImpactAnalysis();
         var result = new HashMap<String, List<String>>();
         for (var analyzedTest : testImpactAnalysis.getAnalyzedTests()) {
