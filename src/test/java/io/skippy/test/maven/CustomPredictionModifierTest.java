@@ -17,7 +17,6 @@
 package io.skippy.test.maven;
 
 import io.skippy.test.SkippyTestTag;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -29,16 +28,73 @@ import java.nio.file.Files;
 
 import static java.nio.file.Files.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 public class CustomPredictionModifierTest {
 
-    @Disabled
     @Test
     @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
-        fail();
+        var projectDir = new File(getClass().getResource("/test-projects/custom-prediction-modifier").toURI());
+
+        var predictionsLog = projectDir.toPath()
+                .resolve(".skippy")
+                .resolve("predictions.log");
+
+        assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+                "com.example.LeftPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"RegressionSuitePredictionModifier\"",
+                "com.example.RightPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"RegressionSuitePredictionModifier\""
+        );
+
+        var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
+
+        JSONAssert.assertEquals("""
+            {
+                "classes": {
+                    "0": {
+                        "name": "com.example.LeftPadder",
+                        "path": "com/example/LeftPadder.class",
+                        "outputFolder": "target/classes",
+                        "hash": "8E994DD8"
+                    },
+                    "1": {
+                        "name": "com.example.LeftPadderTest",
+                        "path": "com/example/LeftPadderTest.class",
+                        "outputFolder": "target/test-classes",
+                        "hash": "2B1B85DB"
+                    },
+                    "2": {
+                        "name": "com.example.RightPadder",
+                        "path": "com/example/RightPadder.class",
+                        "outputFolder": "target/classes",
+                        "hash": "F7F27006"
+                    },
+                    "3": {
+                        "name": "com.example.RightPadderTest",
+                        "path": "com/example/RightPadderTest.class",
+                        "outputFolder": "target/test-classes",
+                        "hash": "245F22AE"
+                    },
+                    "4": {
+                        "name": "com.example.StringUtils",
+                        "path": "com/example/StringUtils.class",
+                        "outputFolder": "target/classes",
+                        "hash": "ECE5D94D"
+                    }
+                },
+                "tests": [
+                    {
+                        "class": 1,
+                        "tags": ["PASSED", "ALWAYS_EXECUTE"],
+                        "coveredClasses": [0,1,4]
+                    },
+                    {
+                        "class": 3,
+                        "tags": ["PASSED", "ALWAYS_EXECUTE"],
+                        "coveredClasses": [2,3,4]
+                    }
+                ]
+            }
+        """, tia, JSONCompareMode.LENIENT);
     }
 
 }

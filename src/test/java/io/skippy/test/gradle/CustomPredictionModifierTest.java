@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomPredictionModifierTest {
 
     @Test
-    @Tag(SkippyTestTag.THIS_TEST_ONLY)
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/custom-prediction-modifier").toURI());
 

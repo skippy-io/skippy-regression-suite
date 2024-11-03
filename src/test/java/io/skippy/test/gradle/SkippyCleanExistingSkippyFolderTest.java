@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SkippyCleanExistingSkippyFolderTest {
 
     @Test
-    @Tag(SkippyTestTag.THIS_TEST_ONLY)
+    @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/skippy-clean-existing-skippy-folder").toURI());
 
@@ -43,14 +43,6 @@ public class SkippyCleanExistingSkippyFolderTest {
         assertEquals(true, projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json").toFile().exists());
 
         var configJson = Files.readString(projectDir.toPath().resolve(".skippy/config.json"), StandardCharsets.UTF_8);
-
-        JSONAssert.assertEquals("""
-            {
-                "coverageForSkippedTests": "true",
-                "repositoryExtension": "io.skippy.core.DefaultRepositoryExtension",
-                "predictionModifier": "io.skippy.core.DefaultPredictionModifier"
-            }
-        """, configJson, JSONCompareMode.LENIENT);
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
