@@ -39,7 +39,7 @@ public class GradleCompatibilityTest {
     @ParameterizedTest
     @MethodSource("io.skippy.test.gradle.GradleVersions#getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled")
     @Tag(SkippyTestTag.GRADLE)
-    public void testBuild(String gradleVersion, boolean configurationCacheEnabled) throws Exception {
+    public void testBuild(String gradleVersion, boolean versionSupportsRerunOption, boolean configurationCacheEnabled) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/gradle-compatibility").toURI());
 
         deleteSkippyFolder(projectDir.toPath().resolve(".skippy"));
@@ -76,6 +76,37 @@ public class GradleCompatibilityTest {
                 ]
             }
         """, tia, JSONCompareMode.LENIENT);
+
+
+        // check --rerun support for Skippy tasks
+
+        if (false == versionSupportsRerunOption) {
+            return;
+        }
+
+        arguments = new ArrayList<>(asList("skippyAnalyze", "--rerun"));
+        if (configurationCacheEnabled) {
+            arguments.add("--configuration-cache");
+        }
+
+        GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withGradleVersion(gradleVersion)
+                .withArguments(refresh(arguments))
+                .build();
+
+        // check --rerun support for Skippy tasks
+
+        arguments = new ArrayList<>(asList("skippyClean", "--rerun"));
+        if (configurationCacheEnabled) {
+            arguments.add("--configuration-cache");
+        }
+
+        GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withGradleVersion(gradleVersion)
+                .withArguments(refresh(arguments))
+                .build();
     }
 
 
