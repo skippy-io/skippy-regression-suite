@@ -10,32 +10,34 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class GradleVersions {
-
-    static List<String> getAllSupportedVersions() {
+    
+    record VersionAndSupportForRerunOption(String version, boolean supportsRerun) {};
+    
+    static List<VersionAndSupportForRerunOption> getAllSupportedVersions() {
         return asList(
-                "7.3",
-                "7.4",
-                "7.5",
-                "7.6",
-                "8.0",
-                "8.1",
-                "8.2",
-                "8.3",
-                "8.4",
-                "8.5",
-                "8.6",
-                "8.7",
-                "8.8",
-                "8.9",
-                "8.10"
-                );
+                new VersionAndSupportForRerunOption("7.3", false),
+                new VersionAndSupportForRerunOption("7.4", false),
+                new VersionAndSupportForRerunOption("7.5", false),
+                new VersionAndSupportForRerunOption("7.6", true),
+                new VersionAndSupportForRerunOption("8.0", true),
+                new VersionAndSupportForRerunOption("8.1", true),
+                new VersionAndSupportForRerunOption("8.2", true),
+                new VersionAndSupportForRerunOption("8.3", true),
+                new VersionAndSupportForRerunOption("8.4", true),
+                new VersionAndSupportForRerunOption("8.5", true),
+                new VersionAndSupportForRerunOption("8.6", true),
+                new VersionAndSupportForRerunOption("8.7", true),
+                new VersionAndSupportForRerunOption("8.8", true),
+                new VersionAndSupportForRerunOption("8.9", true),
+                new VersionAndSupportForRerunOption("8.10", true)
+            );
     }
 
     static Stream<Arguments> getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled() {
         List<Arguments> arguments = new ArrayList<>();
         for (var version : getAllSupportedVersions()) {
-            arguments.add(arguments(version, true));
-            arguments.add(arguments(version, false));
+            arguments.add(arguments(version.version, version.supportsRerun, true));
+            arguments.add(arguments(version.version, version.supportsRerun, false));
         }
         return arguments.stream();
     }

@@ -38,7 +38,7 @@ public class GradleCompatibilityTestFailureTest {
     @ParameterizedTest
     @MethodSource("io.skippy.test.gradle.GradleVersions#getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled")
     @Tag(SkippyTestTag.GRADLE)
-    public void testBuild(String gradleVersion, boolean configurationCacheEnabled) throws Exception {
+    public void testBuild(String gradleVersion, boolean supportsRerunOption, boolean configurationCacheEnabled) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
 
         deleteSkippyFolder(projectDir.toPath().resolve(".skippy"));
