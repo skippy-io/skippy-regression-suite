@@ -17,14 +17,13 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static io.skippy.core.SkippyRegressionTestApi.parseMergedExecutionDataFiles;
+import static io.skippy.core.SkippyRegressionTestApi.parseExecutionDataFile;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +47,7 @@ public class MergeExecutionDataForSkippedTestsTest {
         assertThat(output).contains("LeftPadderTest > testPadLeft() SKIPPED");
         assertThat(output).contains("RightPadderTest > testPadLeft() SKIPPED");
 
-        var coveredClasses = parseMergedExecutionDataFiles(projectDir.toPath().resolve("build/skippy.exec"));
+        var coveredClasses = parseExecutionDataFile(projectDir.toPath().resolve("build/skippy.exec"));
 
         assertEquals(
                 asList(

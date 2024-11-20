@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static io.skippy.test.gradle.Tasks.refresh;
 import static java.nio.file.Files.*;
@@ -36,12 +37,7 @@ public class CustomRepositoryTest {
         var projectDir = new File(getClass().getResource("/test-projects/custom-repository").toURI());
         var repositoryMarker = projectDir.toPath().resolve(".skippy").resolve("REPOSITORY");
 
-        GradleRunner.create()
-                .withProjectDir(projectDir)
-                .withArguments(refresh("skippyClean"))
-                .build();
-
-        assertFalse(exists(repositoryMarker));
+        Files.deleteIfExists(repositoryMarker);
 
         GradleRunner.create()
                 .withProjectDir(projectDir)

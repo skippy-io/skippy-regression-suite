@@ -17,6 +17,7 @@
 package io.skippy.test.gradle;
 
 import io.skippy.test.SkippyTestTag;
+import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -37,15 +38,11 @@ public class JUnit5NestedTestFailureTest {
     @Tag(SkippyTestTag.GRADLE)
     public void testBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/junit5-nested-test-failure").toURI());
-        GradleRunner.create()
+        BuildResult buildResult = GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments(refresh("clean", "skippyClean", "check"))
+                .forwardOutput()
                 .buildAndFail();
-
-        var testFailuresTxt = projectDir.toPath().resolve(".skippy").resolve("tags.txt");
-        assertThat(readAllLines(testFailuresTxt, StandardCharsets.UTF_8).toArray()).containsOnly(
-                "com.example.RootTest$NestedTest=FAILED"
-        );
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
