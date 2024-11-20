@@ -41,10 +41,10 @@ public class JUnit5NestedTestsTest {
                 .resolve("predictions.log");
 
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.NestedTestsTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
-                "com.example.NestedTestsTest$Level2BarTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
-                "com.example.NestedTestsTest$Level2FooTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
-                "com.example.NestedTestsTest$Level2FooTest$Level3Test,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND"
+                "target/test-classes,com.example.NestedTestsTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
+                "target/test-classes,com.example.NestedTestsTest$Level2BarTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
+                "target/test-classes,com.example.NestedTestsTest$Level2FooTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND",
+                "target/test-classes,com.example.NestedTestsTest$Level2FooTest$Level3Test,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND"
         );
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);

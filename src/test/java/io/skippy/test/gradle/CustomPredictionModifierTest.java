@@ -46,8 +46,8 @@ public class CustomPredictionModifierTest {
 
         var predictionsLog = projectDir.toPath().resolve(".skippy").resolve("predictions.log");
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.LeftPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"RegressionSuitePredictionModifier\"",
-                "com.example.RightPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"RegressionSuitePredictionModifier\""
+                "build/classes/java/test,com.example.LeftPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"RegressionSuitePredictionModifier\"",
+                "build/classes/java/test,com.example.RightPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"RegressionSuitePredictionModifier\""
         );
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
