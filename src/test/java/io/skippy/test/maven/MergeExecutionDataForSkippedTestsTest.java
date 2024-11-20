@@ -22,8 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static io.skippy.core.SkippyRegressionTestApi.parseJacocoExecutionDataFiles;
-import static io.skippy.core.SkippyRegressionTestApi.parseMergedExecutionDataFiles;
+import static io.skippy.core.SkippyRegressionTestApi.parseExecutionDataFile;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,7 +33,7 @@ public class MergeExecutionDataForSkippedTestsTest {
     public void testSkippyAnalyzeBuild() throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/merge-execution-data-maven").toURI());
 
-        var coveredClasses = parseMergedExecutionDataFiles(projectDir.toPath().resolve("target/skippy.exec"));
+        var coveredClasses = parseExecutionDataFile(projectDir.toPath().resolve("target/skippy.exec"));
 
         assertEquals(
                 asList(

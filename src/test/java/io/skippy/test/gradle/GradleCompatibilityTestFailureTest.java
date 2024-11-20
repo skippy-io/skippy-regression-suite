@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
-import static io.skippy.core.SkippyRegressionTestApi.deleteSkippyFolder;
+import static io.skippy.core.SkippyRegressionTestApi.deleteDirectory;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static java.util.Arrays.asList;
 
@@ -41,7 +41,7 @@ public class GradleCompatibilityTestFailureTest {
     public void testBuild(String gradleVersion, boolean supportsRerunOption, boolean configurationCacheEnabled) throws Exception {
         var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
 
-        deleteSkippyFolder(projectDir.toPath().resolve(".skippy"));
+        deleteDirectory(projectDir.toPath().resolve(".skippy"));
 
         var arguments = new ArrayList<>(asList("clean", "skippyClean", "check", "--stacktrace"));
         if (configurationCacheEnabled) {

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static io.skippy.core.SkippyRegressionTestApi.deleteSkippyFolder;
+import static io.skippy.core.SkippyRegressionTestApi.deleteDirectory;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,7 +35,7 @@ public class SkippyCleanNoSkippyFolderTest {
         var projectDir = new File(getClass().getResource("/test-projects/skippy-clean-no-skippy-folder").toURI());
 
         var skippyFolder = projectDir.toPath().resolve(".skippy");
-        deleteSkippyFolder(skippyFolder);
+        deleteDirectory(skippyFolder);
 
         assertEquals(false, projectDir.toPath().resolve(".skippy").toFile().exists());
 
