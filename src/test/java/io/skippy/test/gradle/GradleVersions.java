@@ -15,20 +15,20 @@ class GradleVersions {
     
     static List<VersionAndSupportForRerunOption> getAllSupportedVersions() {
         return asList(
-//                new VersionAndSupportForRerunOption("7.3", false),
-//                new VersionAndSupportForRerunOption("7.4", false),
-//                new VersionAndSupportForRerunOption("7.5", false),
-//                new VersionAndSupportForRerunOption("7.6", true),
-//                new VersionAndSupportForRerunOption("8.0", true),
-//                new VersionAndSupportForRerunOption("8.1", true),
-//                new VersionAndSupportForRerunOption("8.2", true),
-//                new VersionAndSupportForRerunOption("8.3", true),
-//                new VersionAndSupportForRerunOption("8.4", true),
-//                new VersionAndSupportForRerunOption("8.5", true),
-//                new VersionAndSupportForRerunOption("8.6", true),
-//                new VersionAndSupportForRerunOption("8.7", true),
-//                new VersionAndSupportForRerunOption("8.8", true),
-//                new VersionAndSupportForRerunOption("8.9", true),
+                new VersionAndSupportForRerunOption("7.3", false),
+                new VersionAndSupportForRerunOption("7.4", false),
+                new VersionAndSupportForRerunOption("7.5", false),
+                new VersionAndSupportForRerunOption("7.6", true),
+                new VersionAndSupportForRerunOption("8.0", true),
+                new VersionAndSupportForRerunOption("8.1", true),
+                new VersionAndSupportForRerunOption("8.2", true),
+                new VersionAndSupportForRerunOption("8.3", true),
+                new VersionAndSupportForRerunOption("8.4", true),
+                new VersionAndSupportForRerunOption("8.5", true),
+                new VersionAndSupportForRerunOption("8.6", true),
+                new VersionAndSupportForRerunOption("8.7", true),
+                new VersionAndSupportForRerunOption("8.8", true),
+                new VersionAndSupportForRerunOption("8.9", true),
                 new VersionAndSupportForRerunOption("8.10", true)
             );
     }

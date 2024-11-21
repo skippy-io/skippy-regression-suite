@@ -40,7 +40,6 @@ public class JUnit5DuplicateClassNamesTest {
         GradleRunner.create()
                 .withProjectDir(projectDir)
                 .withArguments(refresh("clean", "skippyClean", "check"))
-                .forwardOutput()
                 .build();
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);
@@ -129,6 +128,23 @@ public class JUnit5DuplicateClassNamesTest {
                 ]
             }
         """, tia, JSONCompareMode.LENIENT);
+
+
+        GradleRunner.create()
+                .withProjectDir(projectDir)
+                .withArguments(refresh("check", "--rerun-tasks"))
+                .forwardOutput()
+                .build();
+
+        var loggingLog = projectDir.toPath().resolve(".skippy").resolve("logging.log");
+        assertThat(readAllLines(loggingLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
+                "Mapping class build/classes/java/debugTest/com.example.BarTest to AnalyzedTest[build/classes/java/debugTest/com.example.BarTest]",
+                "Mapping class build/classes/java/debugTest/com.example.FooTest to AnalyzedTest[build/classes/java/debugTest/com.example.FooTest]",
+                "Mapping class build/classes/java/releaseTest/com.example.BarTest to AnalyzedTest[build/classes/java/releaseTest/com.example.BarTest]",
+                "Mapping class build/classes/java/releaseTest/com.example.FooTest to AnalyzedTest[build/classes/java/releaseTest/com.example.FooTest]",
+                "Mapping class build/classes/java/test/com.example.BarTest to AnalyzedTest[build/classes/java/test/com.example.BarTest]",
+                "Mapping class build/classes/java/test/com.example.FooTest to AnalyzedTest[build/classes/java/test/com.example.FooTest]"
+        );
     }
 
 }
