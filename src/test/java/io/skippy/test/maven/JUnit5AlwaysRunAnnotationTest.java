@@ -41,8 +41,8 @@ public class JUnit5AlwaysRunAnnotationTest {
                 .resolve("predictions.log");
 
         assertThat(readAllLines(predictionsLog, StandardCharsets.UTF_8).toArray()).containsExactlyInAnyOrder(
-                "com.example.LeftPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"Class, superclass or implementing interface annotated with @AlwaysRun\"",
-                "com.example.RightPadderTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND"
+                "target/test-classes,com.example.LeftPadderTest,ALWAYS_EXECUTE,OVERRIDE_BY_PREDICTION_MODIFIER,\"Class, superclass or implementing interface annotated with @AlwaysRun\"",
+                "target/test-classes,com.example.RightPadderTest,EXECUTE,TEST_IMPACT_ANALYSIS_NOT_FOUND"
         );
 
         var tia = Files.readString(projectDir.toPath().resolve(".skippy/test-impact-analysis.json"), StandardCharsets.UTF_8);

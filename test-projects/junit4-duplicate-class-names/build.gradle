@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+        classpath 'io.skippy:skippy-gradle:' + project.skippyVersion
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: io.skippy.gradle.SkippyPlugin;
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+sourceSets {
+    release {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+    debug {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+    releaseTest {
+        compileClasspath += sourceSets.release.output
+        runtimeClasspath += sourceSets.release.output
+    }
+    debugTest {
+        compileClasspath += sourceSets.debug.output
+        runtimeClasspath += sourceSets.debug.output
+    }
+}
+
+dependencies {
+    testImplementation 'io.skippy:skippy-junit4:' + project.skippyVersion
+    debugTestImplementation 'io.skippy:skippy-junit4:' + project.skippyVersion
+    releaseTestImplementation 'io.skippy:skippy-junit4:' + project.skippyVersion
+}
+
+configurations {
+    debugTestImplementation.extendsFrom implementation
+    debugTestRuntimeOnly.extendsFrom runtimeOnly
+    releaseTestImplementation.extendsFrom implementation
+    releaseTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+tasks.register('debugTest', Test) {
+    description = 'Runs tests in the debug source set.'
+    group = 'verification'
+    testClassesDirs = sourceSets.debugTest.output.classesDirs
+    classpath = sourceSets.debugTest.runtimeClasspath
+    shouldRunAfter test
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
+    }
+}
+
+tasks.register('releaseTest', Test) {
+    description = 'Runs tests in the debug source set.'
+    group = 'verification'
+    testClassesDirs = sourceSets.releaseTest.output.classesDirs
+    classpath = sourceSets.releaseTest.runtimeClasspath
+    shouldRunAfter test
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
+    }
+}
+
+test.dependsOn debugTest
+test.dependsOn releaseTest
