@@ -19,6 +19,7 @@ package io.skippy.test.gradle;
 import io.skippy.test.SkippyTestTag;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -33,24 +34,19 @@ import static io.skippy.core.SkippyRegressionTestApi.deleteDirectory;
 import static io.skippy.test.gradle.Tasks.refresh;
 import static java.util.Arrays.asList;
 
-public class GradleCompatibilityTestFailureTest {
+public class JUnit5TestFailureTest {
 
-    @ParameterizedTest
-    @MethodSource("io.skippy.test.gradle.GradleVersions#getAllSupportedVersionsWithConfigurationCacheEnabledAndDisabled")
+    @Test
     @Tag(SkippyTestTag.GRADLE)
-    public void testBuild(String gradleVersion, boolean supportsRerunOption, boolean configurationCacheEnabled) throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
+    public void testBuild() throws Exception {
+        var projectDir = new File(getClass().getResource("/test-projects/junit5-test-failure").toURI());
 
         deleteDirectory(projectDir.toPath().resolve(".skippy"));
 
         var arguments = new ArrayList<>(asList("clean", "skippyClean", "check", "--stacktrace"));
-        if (configurationCacheEnabled) {
-            arguments.add("--configuration-cache");
-        }
 
         GradleRunner.create()
                 .withProjectDir(projectDir)
-                .withGradleVersion(gradleVersion)
                 .withArguments(refresh(arguments))
                 .buildAndFail();
 

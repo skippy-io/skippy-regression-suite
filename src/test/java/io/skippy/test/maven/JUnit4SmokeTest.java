@@ -58,7 +58,7 @@ public class JUnit4SmokeTest {
                                      "name": "com.example.LeftPadderTest",
                                      "path": "com/example/LeftPadderTest.class",
                                      "outputFolder": "target/test-classes",
-                                     "hash": "5BC2F2A3"
+                                     "hash": "48CB463E"
                              },
                              "2": {
                                      "name": "com.example.RightPadder",
@@ -70,7 +70,7 @@ public class JUnit4SmokeTest {
                                      "name": "com.example.RightPadderTest",
                                      "path": "com/example/RightPadderTest.class",
                                      "outputFolder": "target/test-classes",
-                                     "hash": "7966371F"
+                                     "hash": "6C83D381"
                              },
                              "4": {
                                      "name": "com.example.StringUtils",

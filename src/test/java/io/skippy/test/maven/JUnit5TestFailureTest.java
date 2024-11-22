@@ -24,12 +24,12 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestFailureTest {
+public class JUnit5TestFailureTest {
 
     @Test
     @Tag(SkippyTestTag.MAVEN)
     public void testBuild() throws Exception {
-        var projectDir = new File(getClass().getResource("/test-projects/test-failure").toURI());
+        var projectDir = new File(getClass().getResource("/test-projects/junit5-test-failure").toURI());
         var tia = projectDir.toPath().resolve(".skippy").resolve("test-impact-analysis.json");
         assertEquals(false, tia.toFile().exists());
     }

@@ -1,7 +1,7 @@
 package com.example;
 
 import io.skippy.junit4.Skippy;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 
@@ -9,8 +9,8 @@ import static junit.framework.TestCase.assertTrue;
 
 public class FooTest {
 
-    @ClassRule
-    public static TestRule skippyRule = Skippy.predictWithSkippy();
+    @Rule
+    public TestRule skippyRule = Skippy.predictWithSkippy();
 
     static String field;
 
