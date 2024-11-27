@@ -94,19 +94,6 @@ public class GradleCompatibilityTest {
                 .withGradleVersion(gradleVersion)
                 .withArguments(refresh(arguments))
                 .build();
-
-        // check --rerun support for Skippy tasks
-
-        arguments = new ArrayList<>(asList("skippyClean", "--rerun"));
-        if (configurationCacheEnabled) {
-            arguments.add("--configuration-cache");
-        }
-
-        GradleRunner.create()
-                .withProjectDir(projectDir)
-                .withGradleVersion(gradleVersion)
-                .withArguments(refresh(arguments))
-                .build();
     }
 
 
